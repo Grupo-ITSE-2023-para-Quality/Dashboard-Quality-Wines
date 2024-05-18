@@ -5,7 +5,6 @@ import { ModalProvider } from "@/providers/modal-provider";
 import type { Metadata } from "next";
 
 import "./globals.css";
-import prismadb from "@/lib/prismadb";
 import { ToasterProvider } from "@/providers/toast-provider";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -24,7 +23,6 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>
-          {children}
           <ToasterProvider />
           <ModalProvider />
           {children}

@@ -7,6 +7,7 @@ export async function POST(req: Request) {
     const { userId } = auth();
     const body = await req.json();
     const { name } = body;
+
     if (!userId) {
       return new NextResponse("Sin autorización", { status: 401 });
     }
@@ -21,6 +22,7 @@ export async function POST(req: Request) {
         userId,
       },
     });
+
     return NextResponse.json(store);
   } catch (error) {
     console.log("[STORES_POST]", error);
