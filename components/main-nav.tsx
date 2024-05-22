@@ -1,33 +1,21 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-<<<<<<< Updated upstream
-=======
 import Link from "next/link";
 import { Settings } from "lucide-react";
 import { useParams, usePathname } from "next/navigation";
 import React from "react";
->>>>>>> Stashed changes
 
 export function MainNav({
   className,
   ...props
-<<<<<<< Updated upstream
-}: React.HTMLAttributes<HTMLAreaElement>) {
-  return (
-    <nav
-      className={cn("flex items-center space-x-4 lg:space-x-6", className)}
-    ></nav>
-  );
-}
-=======
 }: React.HTMLAttributes<HTMLElement>) {
   const pathname = usePathname();
   const params = useParams();
   const routes = [
     {
       href: `/${params.storeId}/settings`,
-      label: 'Settings',
+      label: 'Configurar',
       active: pathname === `/${params.storeId}/settings`,
 
     },
@@ -52,4 +40,3 @@ export function MainNav({
     </nav>
   )
 };
->>>>>>> Stashed changes
