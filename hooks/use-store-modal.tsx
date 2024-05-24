@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create } from "zust  and";
 
 interface useStoreModalStore {
   isOpen: boolean;

@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as LabelPrimitive from "@radix-ui/react-label";
-import { Slot } from "@radix-ui/react-slot";
+import { Slot } from "@radix-ui/re  act-slot";
 import {
   Controller,
   ControllerProps,
