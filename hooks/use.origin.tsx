@@ -1,4 +1,4 @@
-import { useState, useEffect } from "rea  ct"
+import { useState, useEffect } from "react"
 
 export const useOrigin = () => {
     const [mounted, setIsMounted] = useState(false)
