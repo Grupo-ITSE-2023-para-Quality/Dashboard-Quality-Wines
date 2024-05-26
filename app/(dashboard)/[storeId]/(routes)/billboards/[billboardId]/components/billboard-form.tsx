@@ -68,8 +68,11 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
   const onSubmit = async (data: BillboardFormValues) => {
     try {
       setLoading(true);
-      if (initialData){
-        await axios.patch(`/api/${params.storeId}/billboards/${params.billboardId}`, data);
+      if (initialData) {
+        await axios.patch(
+          `/api/${params.storeId}/billboards/${params.billboardId}`,
+          data
+        );
       } else {
         await axios.post(`/api/${params.storeId}/billboards`, data);
       }
@@ -85,12 +88,16 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/billboards/${params.billboardId}`);
+      await axios.delete(
+        `/api/${params.storeId}/billboards/${params.billboardId}`
+      );
       router.refresh();
       router.push("/");
       toast.success("Billboard Eliminado");
     } catch (error) {
-      toast.error("Elimine primero todas las categorias usadas en este billboard");
+      toast.error(
+        "Elimine primero todas las categorias usadas en este billboard"
+      );
     } finally {
       setLoading(false);
       setOpen(false);
