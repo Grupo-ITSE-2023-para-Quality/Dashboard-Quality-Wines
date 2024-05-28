@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { ColumnDef } from "@tanstack/react-table"
+import { ColumnDef } from "@tanstack/react-table";
 
 export type BillboardColumn = {
-  id: string
-  label: string
-  createAt: string
-}
+  id: string;
+  label: string;
+  createAt: string;
+};
 
 export const columns: ColumnDef<BillboardColumn>[] = [
   {
@@ -17,4 +17,4 @@ export const columns: ColumnDef<BillboardColumn>[] = [
     accessorKey: "createAt",
     header: "Date",
   },
-]
+];

@@ -20,7 +20,7 @@ export function MainNav({
     },
     {
       href: `/${params.storeId}/billboards`,
-      label: "Billboards",
+      label: "Promociones",
       active: pathname === `/${params.storeId}/billboards`,
     },
     {
@@ -39,7 +39,7 @@ export function MainNav({
           className={cn(
             "text-sm font-medium transition-colors hover:text-primary",
             route.active
-              ? "text black dark: text-white"
+              ? "text-black  dark:text-white"
               : "text-muted-foreground"
           )}
         >

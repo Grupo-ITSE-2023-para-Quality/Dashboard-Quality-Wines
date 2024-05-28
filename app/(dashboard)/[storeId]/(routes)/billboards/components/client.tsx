@@ -10,12 +10,10 @@ import { Separator } from "@/components/ui/separator";
 import { BillboardColumn } from "./columns";
 
 interface BillboardClientProps {
-  data: BillboardColumn[]
+  data: BillboardColumn[];
 }
 
-export const BillboardClient: React.FC<BillboardClientProps> = ({
-  data
-}) => {
+export const BillboardClient: React.FC<BillboardClientProps> = ({ data }) => {
   const router = useRouter();
   const params = useParams();
 
@@ -23,8 +21,8 @@ export const BillboardClient: React.FC<BillboardClientProps> = ({
     <>
       <div className="flex items-center justify-between">
         <Heading
-          title={`Billboards (${data.length})`}
-          description="Manage billboards for your store"
+          title={`Promociones (${data.length})`}
+          description="Administrar promociones"
         />
         <Button
           onClick={() => router.push(`/${params.storeId}/billboards/new`)}

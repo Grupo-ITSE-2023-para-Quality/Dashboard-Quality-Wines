@@ -45,13 +45,13 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const title = initialData ? "Editar billboard" : "Crear billboard";
+  const title = initialData ? "Editar promoción" : "Crear promoción";
   const description = initialData
-    ? "Editar un billboard"
-    : "Crear un billboard";
+    ? "Editar una promoción"
+    : "Añade un nuevo anuncio";
   const toastMessage = initialData
-    ? "Billboard actualizado"
-    : "Billboard creado";
+    ? "Promoción actualizado"
+    : "Promoción creado";
   const action = initialData ? "Guardar cambios" : "Crear";
 
   const form = useForm<BillboardFormValues>({
@@ -74,7 +74,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
         await axios.post(`/api/${params.storeId}/billboards`, data);
       }
       router.refresh();
-      router.push(`/${params.storeId}/billboards`)
+      router.push(`/${params.storeId}/billboards`);
       toast.success(toastMessage);
     } catch (error) {
       toast.error("Algo Salio Mal");
@@ -91,10 +91,10 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
       );
       router.refresh();
       router.push("/");
-      toast.success("Billboard Eliminado");
+      toast.success("Promoción eliminada");
     } catch (error) {
       toast.error(
-        "Elimine primero todas las categorias usadas en este billboard"
+        "Elimine primero todas las categorias usadas en esta promoción"
       );
     } finally {
       setLoading(false);
@@ -153,11 +153,11 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
               name="label"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Label</FormLabel>
+                  <FormLabel>Nombre</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Billboard Label"
+                      placeholder="Nombre de la promoción"
                       {...field}
                     />
                   </FormControl>
