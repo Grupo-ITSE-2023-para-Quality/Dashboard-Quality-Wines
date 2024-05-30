@@ -54,9 +54,9 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
       setLoading(true);
       await axios.patch(`/api/stores/${params.storeId}`, data);
       router.refresh();
-      toast.success("Tienda Actualizada");
+      toast.success("Tienda actualizada");
     } catch (error) {
-      toast.error("Algo Salio Mal");
+      toast.error("Algo salió mal");
     } finally {
       setLoading(false);
     }
@@ -68,9 +68,9 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
       await axios.delete(`/api/stores/${params.storeId}`);
       router.refresh();
       router.push("/");
-      toast.success("Tienda Eliminada");
+      toast.success("Tienda eliminada");
     } catch (error) {
-      toast.error("Elimine primero todos los productos y categorias");
+      toast.error("Primero elimine todos los productos y categorias");
     } finally {
       setLoading(false);
       setOpen(false);
@@ -125,7 +125,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
             />
           </div>
           <Button disabled={loading} className-="ml-auto" type="submit">
-            Guardar Cambios
+            Guardar cambios
           </Button>
         </form>
       </Form>

@@ -26,7 +26,7 @@ import { useState } from "react";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  searchKey: string; 
+  searchKey: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -34,9 +34,7 @@ export function DataTable<TData, TValue>({
   data,
   searchKey,
 }: DataTableProps<TData, TValue>) {
-    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
-        []
-      )
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const table = useReactTable({
     data,
     columns,
@@ -45,13 +43,13 @@ export function DataTable<TData, TValue>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     state: {
-        columnFilters,
-      },
+      columnFilters,
+    },
   });
 
   return (
     <div>
-        <div className="flex items-center py-4">
+      <div className="flex items-center py-4">
         <Input
           placeholder="Buscar"
           value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
@@ -118,7 +116,7 @@ export function DataTable<TData, TValue>({
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
-          Previous
+          Anterior
         </Button>
         <Button
           variant="outline"
@@ -126,7 +124,7 @@ export function DataTable<TData, TValue>({
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
-          Next
+          Siguiente
         </Button>
       </div>
     </div>

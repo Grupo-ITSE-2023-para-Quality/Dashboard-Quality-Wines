@@ -94,7 +94,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
       toast.success("Promoción eliminada");
     } catch (error) {
       toast.error(
-        "Elimine primero todas las categorias usadas en esta promoción"
+        "Primero elimine todas las categorias usadas en esta promoción"
       );
     } finally {
       setLoading(false);
@@ -134,7 +134,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
             name="imageUrl"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Imagen de Fondo</FormLabel>
+                <FormLabel>Imagen de fondo</FormLabel>
                 <FormControl>
                   <ImageUpload
                     value={field.value ? [field.value] : []}

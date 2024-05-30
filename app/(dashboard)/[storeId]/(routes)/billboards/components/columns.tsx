@@ -6,7 +6,7 @@ import { CellAction } from "./cell-action";
 export type BillboardColumn = {
   id: string;
   label: string;
-  createAt: string;
+  createdAt: string;
 };
 
 export const columns: ColumnDef<BillboardColumn>[] = [
@@ -15,12 +15,11 @@ export const columns: ColumnDef<BillboardColumn>[] = [
     header: "Label",
   },
   {
-    accessorKey: "createAt",
+    accessorKey: "createdAt",
     header: "Date",
   },
   {
-    id:"actions",
-    cell: ({ row }) => <CellAction data={row.original} />
-  }
-  
+    id: "actions",
+    cell: ({ row }) => <CellAction data={row.original} />,
+  },
 ];

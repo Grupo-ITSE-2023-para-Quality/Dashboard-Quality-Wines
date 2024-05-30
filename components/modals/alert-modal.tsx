@@ -28,7 +28,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({
 
   return (
     <Modal
-      title="Está Seguro?"
+      title="¿Está seguro?"
       description=""
       isOpen={isOpen}
       onClose={onClose}
