@@ -8,7 +8,7 @@ export type ColorColumn = {
   name: string;
   value: string;
   createdAt: string;
-};
+}
 
 export const columns: ColumnDef<ColorColumn>[] = [
   {
