@@ -12,7 +12,7 @@ export const useOrigin = () => {
   }, []);
 
   if (!mounted) {
-    return "";
+    return '';
   }
 
   return origin;
