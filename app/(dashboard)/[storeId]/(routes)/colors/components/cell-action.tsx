@@ -39,9 +39,7 @@ export const CellAction: React.FC<CellActionsProps> = ({ data }) => {
       router.refresh();
       toast.success("Color eliminado");
     } catch (error) {
-      toast.error(
-        "Elimine primero todos los productos que usan este Color"
-      );
+      toast.error("Elimine primero todos los productos que usan este Color");
     } finally {
       setLoading(false);
       setOpen(false);
@@ -70,9 +68,7 @@ export const CellAction: React.FC<CellActionsProps> = ({ data }) => {
             Copiar Id
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() =>
-              router.push(`/${params.storeId}/colors/${data.id}`)
-            }
+            onClick={() => router.push(`/${params.storeId}/colors/${data.id}`)}
           >
             <Edit className="mr-2 h-4 w-4" />
             Editar

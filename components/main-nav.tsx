@@ -16,37 +16,42 @@ export function MainNav({
   const routes = [
     {
       href: `/${params.storeId}`,
-      label: 'Descripción',
+      label: "Descripción",
       active: pathname === `/${params.storeId}`,
     },
     {
       href: `/${params.storeId}/billboards`,
-      label: 'Promociones',
+      label: "Promociones",
       active: pathname === `/${params.storeId}/billboards`,
     },
     {
       href: `/${params.storeId}/categories`,
-      label: 'Categorías',
+      label: "Categorías",
       active: pathname === `/${params.storeId}/categories`,
     },
     {
-      href: `/${params.storeId}/colors`,
-      label: 'Colores',
-      active: pathname === `/${params.storeId}/colors`,
-    },
-    {
       href: `/${params.storeId}/products`,
-      label: 'Productos',
+      label: "Productos",
       active: pathname === `/${params.storeId}/products`,
     },
     {
       href: `/${params.storeId}/sizes`,
-      label: 'Capacidades',
+      label: "Presentaciones",
       active: pathname === `/${params.storeId}/sizes`,
     },
     {
+      href: `/${params.storeId}/colors`,
+      label: "Colores",
+      active: pathname === `/${params.storeId}/colors`,
+    },
+    {
+      href: `/${params.storeId}/orders`,
+      label: "Pedidos",
+      active: pathname === `/${params.storeId}/orders`,
+    },
+    {
       href: `/${params.storeId}/settings`,
-      label: 'Configuración',
+      label: "Configuración",
       active: pathname === `/${params.storeId}/settings`,
     },
   ];

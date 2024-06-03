@@ -13,7 +13,7 @@ export type ProductColumn = {
   isFeatured: boolean;
   isArchived: boolean;
   createdAt: string;
-}
+};
 
 export const columns: ColumnDef<ProductColumn>[] = [
   {
@@ -38,7 +38,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
   },
   {
     accessorKey: "size",
-    header: "Capacidad",
+    header: "Presentación",
   },
   {
     accessorKey: "color",
@@ -48,10 +48,10 @@ export const columns: ColumnDef<ProductColumn>[] = [
         {row.original.color}
         <div
           className="h-6 w-6 rounded-full border"
-          style={{ backgroundColor: row.original.color}}
+          style={{ backgroundColor: row.original.color }}
         />
       </div>
-    )
+    ),
   },
   {
     accessorKey: "createdAt",
@@ -60,5 +60,5 @@ export const columns: ColumnDef<ProductColumn>[] = [
   {
     id: "actions",
     cell: ({ row }) => <CellAction data={row.original} />,
-  }
-]
+  },
+];

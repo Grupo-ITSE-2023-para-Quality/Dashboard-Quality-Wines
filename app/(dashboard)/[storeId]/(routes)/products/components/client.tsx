@@ -12,7 +12,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { ApiList } from "@/components/ui/api-list";
 
 interface ProductClientProps {
-  data: ProductColumn[]
+  data: ProductColumn[];
 }
 
 export const ProductClient: React.FC<ProductClientProps> = ({ data }) => {
@@ -26,9 +26,7 @@ export const ProductClient: React.FC<ProductClientProps> = ({ data }) => {
           title={`Productos (${data.length})`}
           description="Administrar productos"
         />
-        <Button
-          onClick={() => router.push(`/${params.storeId}/products/new`)}
-        >
+        <Button onClick={() => router.push(`/${params.storeId}/products/new`)}>
           <Plus className="mr-2 h-4 w-4" />
           Añadir
         </Button>

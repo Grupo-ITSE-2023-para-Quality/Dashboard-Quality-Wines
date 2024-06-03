@@ -130,7 +130,7 @@ export const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Nombre de la Size"
+                      placeholder="Nombre de la presentación"
                       {...field}
                     />
                   </FormControl>

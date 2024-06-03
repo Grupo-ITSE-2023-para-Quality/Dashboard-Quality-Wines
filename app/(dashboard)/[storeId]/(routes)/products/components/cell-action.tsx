@@ -39,9 +39,7 @@ export const CellAction: React.FC<CellActionsProps> = ({ data }) => {
       router.refresh();
       toast.success("Producto eliminado");
     } catch (error) {
-      toast.error(
-        "Algo salió mal"
-      );
+      toast.error("Algo salió mal");
     } finally {
       setLoading(false);
       setOpen(false);
