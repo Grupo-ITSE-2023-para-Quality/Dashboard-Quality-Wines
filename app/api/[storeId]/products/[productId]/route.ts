@@ -19,7 +19,6 @@ export async function GET(
         images: true,
         category: true,
         size: true,
-        color: true
       }
     });
 
@@ -42,7 +41,6 @@ export async function PATCH(
       name,
       price,
       categoryId,
-      colorId,
       sizeId,
       images,
       isFeatured,
@@ -73,10 +71,6 @@ export async function PATCH(
       return new NextResponse("La capacidad es obligatoria", { status: 400 });
     }
 
-    if (!colorId) {
-      return new NextResponse("El color es obligatorio", { status: 400 });
-    }
-
     if (!params.productId) {
       return new NextResponse("El id del producto es obligatorio", {
         status: 400,
@@ -103,7 +97,6 @@ await prismadb.product.update({
         name,
         price,
         categoryId,
-        colorId,
         sizeId,
         images: {
           deleteMany: {}
