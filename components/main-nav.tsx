@@ -21,7 +21,7 @@ export function MainNav({
     },
     {
       href: `/${params.storeId}/billboards`,
-      label: "Promociones",
+      label: "Secciones",
       active: pathname === `/${params.storeId}/billboards`,
     },
     {

@@ -43,7 +43,7 @@ export async function PATCH(
     }
 
     if (!billboardId) {
-      return new NextResponse("Promoción requerida", { status: 400 });
+      return new NextResponse("Sección requerida", { status: 400 });
     }
 
     if (!params.categoryId) {

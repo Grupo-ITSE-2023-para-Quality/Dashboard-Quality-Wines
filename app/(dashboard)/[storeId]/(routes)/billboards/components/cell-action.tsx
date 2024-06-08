@@ -29,7 +29,7 @@ export const CellAction: React.FC<CellActionsProps> = ({ data }) => {
   const [open, setOpen] = useState(false);
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);
-    toast.success("Id de promoción copiado en el portapapeles");
+    toast.success("Id de sección copiado en el portapapeles");
   };
 
   const onDelete = async () => {
@@ -37,10 +37,10 @@ export const CellAction: React.FC<CellActionsProps> = ({ data }) => {
       setLoading(true);
       await axios.delete(`/api/${params.storeId}/billboards/${data.id}`);
       router.refresh();
-      toast.success("Promoción eliminada");
+      toast.success("Sección eliminada");
     } catch (error) {
       toast.error(
-        "Elimine primero todas las categorias usadas en esta promoción"
+        "Elimine primero todas las categorias usadas en esta sección"
       );
     } finally {
       setLoading(false);

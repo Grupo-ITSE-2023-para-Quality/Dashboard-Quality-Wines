@@ -22,7 +22,7 @@ export async function POST(
     }
 
     if (!billboardId) {
-      return new NextResponse("ID de promoción es obligatoria", {
+      return new NextResponse("ID de sección es obligatoria", {
         status: 400,
       });
     }
