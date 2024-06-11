@@ -15,12 +15,16 @@ export async function GET(
       where: {
         id: params.categoryId,
       },
+
+      include: {
+        billboard: true,
+      },
     });
 
     return NextResponse.json(category);
   } catch (error) {
-    console.log('[CATEGORY_GET]', error);
-    return new NextResponse("Internal error", { status: 500 });
+    console.log("[CATEGORY_GET]", error);
+    return new NextResponse("Error interno", { status: 500 });
   }
 }
 
