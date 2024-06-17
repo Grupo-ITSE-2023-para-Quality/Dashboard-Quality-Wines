@@ -42,11 +42,11 @@ export const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const title = initialData ? "Editar Size" : "Crear Size";
+  const title = initialData ? "Editar envase" : "Crear envase";
   const description = initialData
-    ? "Editar una Size"
-    : "Añade una nueva Size de producto";
-  const toastMessage = initialData ? "Size actualizada" : "Size creada";
+    ? "Editar el tipo de envase"
+    : "Añade un nuevo tipo de envase del producto";
+  const toastMessage = initialData ? "Envase actualizado" : "Envase creado";
   const action = initialData ? "Guardar cambios" : "Crear";
 
   const form = useForm<SizeFormValues>({
@@ -84,9 +84,9 @@ export const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
       await axios.delete(`/api/${params.storeId}/sizes/${params.sizeId}`);
       router.refresh();
       router.push(`/${params.storeId}/sizes`);
-      toast.success("Size eliminada");
+      toast.success("Envase eliminado");
     } catch (error) {
-      toast.error("Primero elimine todas los productos usados en esta Size");
+      toast.error("Primero elimine todas los productos que usan este tipo de envase");
     } finally {
       setLoading(false);
       setOpen(false);
@@ -126,11 +126,11 @@ export const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nombre</FormLabel>
+                  <FormLabel>Tipo de envase</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Nombre de la presentación"
+                      placeholder="Nombre"
                       {...field}
                     />
                   </FormControl>
@@ -143,11 +143,11 @@ export const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
               name="value"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Valor</FormLabel>
+                  <FormLabel>Cantidad</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Nombre del valor"
+                      placeholder="Cantidad de productos"
                       {...field}
                     />
                   </FormControl>
