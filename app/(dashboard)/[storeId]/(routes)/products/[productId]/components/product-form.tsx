@@ -242,7 +242,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               name="sizeId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Capacidad</FormLabel>
+                  <FormLabel>Presentación</FormLabel>
                   <Select
                     disabled={loading}
                     onValueChange={field.onChange}
@@ -253,7 +253,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       <SelectTrigger>
                         <SelectValue
                           defaultValue={field.value}
-                          placeholder="Seleccione una capacidad"
+                          placeholder="Seleccione un envase"
                         />
                       </SelectTrigger>
                     </FormControl>

@@ -42,7 +42,7 @@ export async function POST(
     }
 
     if (!sizeId) {
-      return new NextResponse("La capacidad es obligatoria", { status: 400 });
+      return new NextResponse("La presentación es obligatoria", { status: 400 });
     }
 
     if (!params.storeId) {
