@@ -68,7 +68,7 @@ export async function PATCH(
     }
 
     if (!sizeId) {
-      return new NextResponse("El envase es obligatorio es obligatoria", { status: 400 });
+      return new NextResponse("El envase es obligatorio", { status: 400 });
     }
 
     if (!params.productId) {

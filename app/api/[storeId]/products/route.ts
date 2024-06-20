@@ -30,7 +30,7 @@ export async function POST(
     }
 
     if(!images || !images.length) {
-      return  new NextResponse("La imágen es obligatoria", { status: 400 });
+      return  new NextResponse("La imagen es obligatoria", { status: 400 });
     }
 
     if (!price) {

@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
 model Store {
@@ -15,9 +15,9 @@ model Store {
   updatedAt  DateTime    @updatedAt
   billboards Billboard[] @relation("StoreToBillboard")
   categories Category[]  @relation("StoreToCategory")
-  sizes      Size[]      @relation("StoreToSize")
-  products   Product[]   @relation("StoreToProduct")
   orders     Order[]     @relation("StoreToOrder")
+  products   Product[]   @relation("StoreToProduct")
+  sizes      Size[]      @relation("StoreToSize")
 }
 
 model Billboard {
@@ -40,8 +40,8 @@ model Category {
   name        String
   updatedAt   DateTime  @updatedAt
   createdAt   DateTime  @default(now())
-  store       Store     @relation("StoreToCategory", fields: [storeId], references: [id])
   billboard   Billboard @relation(fields: [billboardId], references: [id])
+  store       Store     @relation("StoreToCategory", fields: [storeId], references: [id])
   produts     Product[] @relation("CategoryToProduct")
 
   @@index([storeId])
@@ -72,11 +72,11 @@ model Product {
   sizeId     String
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
-  store      Store       @relation("StoreToProduct", fields: [storeId], references: [id])
-  category   Category    @relation("CategoryToProduct", fields: [categoryId], references: [id])
-  size       Size        @relation(fields: [sizeId], references: [id])
   images     Image[]
   OrderItem  OrderItem[]
+  category   Category    @relation("CategoryToProduct", fields: [categoryId], references: [id])
+  size       Size        @relation(fields: [sizeId], references: [id])
+  store      Store       @relation("StoreToProduct", fields: [storeId], references: [id])
 
   @@index([storeId])
   @@index([categoryId])
