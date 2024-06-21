@@ -11,8 +11,8 @@ import { ThemeProvider } from "@/providers/theme-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Panel de control",
-  description: "Admin Dashboard",
+  title: "StoreControl",
+  description: "Administracion de tienda y productos",
 };
 
 export default function RootLayout({
