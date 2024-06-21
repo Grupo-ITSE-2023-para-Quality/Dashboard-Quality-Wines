@@ -18,7 +18,7 @@ export async function POST(
     }
 
     if (!label) {
-      return new NextResponse("Label es obligatorio", { status: 400 });
+      return new NextResponse("Nombre es obligatorio", { status: 400 });
     }
 
     if (!imageUrl) {

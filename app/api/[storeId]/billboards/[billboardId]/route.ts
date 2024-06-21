@@ -20,7 +20,7 @@ export async function GET(
     return NextResponse.json(billboard);
   } catch (error) {
     console.log("[BILLBOARD_GET]", error);
-    return new NextResponse("Internal error", { status: 500 });
+    return new NextResponse("Error interno", { status: 500 });
   }
 }
 
@@ -117,6 +117,6 @@ export async function DELETE(
     return NextResponse.json(billboard);
   } catch (error) {
     console.log("[BILLBOARD_DELETE]", error);
-    return new NextResponse("Internal error", { status: 500 });
+    return new NextResponse("Error interno", { status: 500 });
   }
 }
