@@ -19,6 +19,7 @@ export async function GET(
         images: true,
         category: true,
         size: true,
+        flavor: true,
       }
     });
 
@@ -43,6 +44,8 @@ export async function PATCH(
       categoryId,
       sizeId,
       images,
+      flavorId,
+      description,
       isFeatured,
       isArchived
     } = body;
@@ -98,6 +101,8 @@ await prismadb.product.update({
         price,
         categoryId,
         sizeId,
+        flavorId,
+        description: description || "",
         images: {
           deleteMany: {}
         },

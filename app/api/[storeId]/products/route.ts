@@ -10,7 +10,6 @@ export async function POST(
   try {
     const { userId } = auth();
     const body = await req.json();
-
     const {
       name,
       price,
@@ -18,8 +17,29 @@ export async function POST(
       sizeId,
       images,
       isFeatured,
-      isArchived
+      isArchived,
+      description,
+      flavorId
     } = body;
+    
+    const productData = {
+      name,
+      price,
+      isFeatured,
+      isArchived,
+      categoryId,
+      sizeId,
+      storeId: params.storeId,
+      description: description || "", 
+      flavorId,
+      images: {
+        createMany: {
+          data: [
+            ...images.map((image: { url: string }) => image)
+          ]
+        }
+      }
+    };
 
     if (!userId) {
       return new NextResponse("No identificado", { status: 401 });
@@ -69,6 +89,8 @@ export async function POST(
         isArchived,
         categoryId,
         sizeId,
+        flavorId,
+        description: description || "",
         storeId: params.storeId,
         images: {
           createMany: {
@@ -95,6 +117,7 @@ export async function GET(
     const { searchParams } = new URL(req.url);
     const categoryId = searchParams.get("categoryId") || undefined;
     const sizeId = searchParams.get("sizeId") || undefined;
+    const flavorId = searchParams.get("flavorId") || undefined;
     const isFeatured = searchParams.get("isFeaturedId") || undefined;
     
     if (!params.storeId) {
@@ -106,6 +129,7 @@ export async function GET(
         storeId: params.storeId,
         categoryId,
         sizeId,
+        flavorId,
         isFeatured: isFeatured ? true : undefined,
         isArchived: false
       },

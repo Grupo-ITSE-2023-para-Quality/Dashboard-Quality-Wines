@@ -44,7 +44,7 @@ model Category {
   createdAt   DateTime  @default(now())
   billboard   Billboard @relation(fields: [billboardId], references: [id])
   store       Store     @relation("StoreToCategory", fields: [storeId], references: [id])
-  produts     Product[] @relation("CategoryToProduct")
+  products    Product[] @relation("CategoryToProduct")
 
   @@index([storeId])
   @@index([billboardId])
@@ -80,7 +80,7 @@ model Product {
   storeId     String
   categoryId  String
   name        String
-  description String
+  description String?     @db.Text
   price       Decimal
   isFeatured  Boolean     @default(false)
   isArchived  Boolean     @default(false)
@@ -91,7 +91,7 @@ model Product {
   images      Image[]
   OrderItem   OrderItem[]
   category    Category    @relation("CategoryToProduct", fields: [categoryId], references: [id])
-  size        Size?        @relation(fields: [sizeId], references: [id])
+  size        Size?       @relation(fields: [sizeId], references: [id])
   store       Store       @relation("StoreToProduct", fields: [storeId], references: [id])
   flavor      Flavor?     @relation(fields: [flavorId], references: [id])
 
