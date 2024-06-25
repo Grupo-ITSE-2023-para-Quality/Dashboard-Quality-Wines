@@ -286,7 +286,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       Destacado
                     </FormLabel>
                     <FormDescription>
-                      Esta página aparecerá en la página principal.
+                      Esta producto aparecerá en la página principal.
                     </FormDescription>
                   </div>
                 </FormItem>
