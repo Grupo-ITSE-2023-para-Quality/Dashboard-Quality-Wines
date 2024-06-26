@@ -27,6 +27,12 @@ const ProductPage = async ({
     }
   });
 
+  const flavors = await prismadb.flavor.findMany({
+    where: {
+      storeId: params.storeId,
+    }
+  });
+
 
   return (
     <div className="flex-col">
@@ -34,7 +40,8 @@ const ProductPage = async ({
         <ProductForm 
           categories={categories}
           sizes={sizes}
-          initialData={product} />
+          initialData={product}
+          flavors={flavors} />
       </div>
     </div>
   );
