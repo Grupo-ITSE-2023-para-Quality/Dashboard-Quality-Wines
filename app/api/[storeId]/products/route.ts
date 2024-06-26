@@ -61,10 +61,6 @@ export async function POST(
       return new NextResponse("La categoría es obligatoria", { status: 400 });
     }
 
-    if (!sizeId) {
-      return new NextResponse("La presentación es obligatoria", { status: 400 });
-    }
-
     if (!params.storeId) {
       return new NextResponse("Id de tienda es obligatorio", { status: 400 });
     }

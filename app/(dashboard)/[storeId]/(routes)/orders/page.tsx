@@ -26,7 +26,6 @@ const OrdersPage = async ({ params }: { params: { storeId: string } }) => {
   const formattedOrders: OrderColumn[] = orders.map((item) => ({
     id: item.id,
     phone: item.phone,
-    address: item.address,
     products: item.orderItems
       .map((orderItem) => orderItem.product.name)
       .join(", "),
@@ -36,7 +35,10 @@ const OrdersPage = async ({ params }: { params: { storeId: string } }) => {
       }, 0)
     ),
     isPaid: item.isPaid,
+    status: item.status, // Incluyendo el nuevo campo
     createdAt: format(item.createdAt, "dd-MM-yyyy"),
+    name: item.name,
+    lastName: item.lastName,
   }));
 
   return (

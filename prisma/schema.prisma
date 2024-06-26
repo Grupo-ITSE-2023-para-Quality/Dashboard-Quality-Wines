@@ -120,6 +120,7 @@ model Order {
   lastName   String      @default("")
   phone      String      @default("")
   email      String?     @default("")
+  status     String      @default("Pendiente")
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
   store      Store       @relation("StoreToOrder", fields: [storeId], references: [id])
