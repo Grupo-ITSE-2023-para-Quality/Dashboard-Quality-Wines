@@ -12,7 +12,7 @@ export type FlavorColumn = {
 export const columns: ColumnDef<FlavorColumn>[] = [
   {
     accessorKey: "name",
-    header: "Envase",
+    header: "Tipo",
   },
   {
     accessorKey: "createdAt",

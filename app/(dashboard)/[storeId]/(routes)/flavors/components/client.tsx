@@ -23,7 +23,7 @@ export const FlavorsClient: React.FC<FlavorsClientProps> = ({ data }) => {
     <>
       <div className="flex items-center justify-between">
         <Heading
-          title={`Presentaciones (${data.length})`}
+          title={`Variedades (${data.length})`}
           description="Administrar las variedades o sabores de los productos"
         />
         <Button
