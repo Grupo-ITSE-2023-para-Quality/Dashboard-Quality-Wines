@@ -121,6 +121,7 @@ export async function GET(
     }
 
     const products = await prismadb.product.findMany({
+
       where: {
         storeId: params.storeId,
         categoryId,
@@ -131,7 +132,10 @@ export async function GET(
       },
       orderBy: {
         createdAt: 'desc'
-      }
+      },
+      include: {
+        category: true, // Incluye el objeto completo de la categoría
+      },
     });
 
     return NextResponse.json(products);
