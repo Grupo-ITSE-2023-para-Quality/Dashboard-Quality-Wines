@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
-
 import prismadb from "@/lib/prismadb";
 
 export async function POST(
@@ -19,27 +18,8 @@ export async function POST(
       isFeatured,
       isArchived,
       description,
-      flavorId
-    } = body;
-    
-    const productData = {
-      name,
-      price,
-      isFeatured,
-      isArchived,
-      categoryId,
-      sizeId,
-      storeId: params.storeId,
-      description: description || "", 
       flavorId,
-      images: {
-        createMany: {
-          data: [
-            ...images.map((image: { url: string }) => image)
-          ]
-        }
-      }
-    };
+    } = body;
 
     if (!userId) {
       return new NextResponse("No identificado", { status: 401 });
@@ -49,12 +29,12 @@ export async function POST(
       return new NextResponse("El nombre es obligatorio", { status: 400 });
     }
 
-    if(!images || !images.length) {
-      return  new NextResponse("La imagen es obligatoria", { status: 400 });
+    if (!images || !images.length) {
+      return new NextResponse("La imagen es obligatoria", { status: 400 });
     }
 
     if (!price) {
-      return new NextResponse("El precio es obligatorio", {status: 400,});
+      return new NextResponse("El precio es obligatorio", { status: 400 });
     }
 
     if (!categoryId) {
@@ -69,10 +49,9 @@ export async function POST(
       where: {
         id: params.storeId,
         userId,
-      }
+      },
     });
 
-    //esto hace que no se pueda cambiar las tiendas de otros usuarios
     if (!storeByUserId) {
       return new NextResponse("Sin autorización", { status: 403 });
     }
@@ -90,17 +69,15 @@ export async function POST(
         storeId: params.storeId,
         images: {
           createMany: {
-            data: [
-              ...images.map((image: { url: string }) => image)
-            ]
-          }
-        }
-      }
+            data: images.map((image: { url: string }) => ({ url: image.url })), // Crear múltiples imágenes
+          },
+        },
+      },
     });
 
     return NextResponse.json(product);
   } catch (error) {
-    console.log('[PRODUCTS_POST]', error);
+    console.log("[PRODUCTS_POST]", error);
     return new NextResponse("Error interno", { status: 500 });
   }
 }
@@ -114,33 +91,47 @@ export async function GET(
     const categoryId = searchParams.get("categoryId") || undefined;
     const sizeId = searchParams.get("sizeId") || undefined;
     const flavorId = searchParams.get("flavorId") || undefined;
-    const isFeatured = searchParams.get("isFeaturedId") || undefined;
-    
+    const isFeatured =
+      searchParams.get("isFeatured") === "true" ? true : undefined; // Asegúrate de que sea un booleano
+    const imagesParam = searchParams.get("images") || undefined;
+
+    // Convertir el parámetro de imágenes en un array
+    const images = imagesParam ? imagesParam.split(",") : undefined;
+
     if (!params.storeId) {
       return new NextResponse("Id de tienda es obligatorio", { status: 400 });
     }
 
     const products = await prismadb.product.findMany({
-
       where: {
         storeId: params.storeId,
         categoryId,
         sizeId,
         flavorId,
-        isFeatured: isFeatured ? true : undefined,
-        isArchived: false
+        isFeatured,
+        isArchived: false,
+        ...(images && {
+          images: {
+            some: {
+              url: {
+                in: images, // Filtrar por URLs de imágenes que están en el array 'images'
+              },
+            },
+          },
+        }),
       },
       orderBy: {
-        createdAt: 'desc'
+        createdAt: "desc",
       },
       include: {
         category: true, // Incluye el objeto completo de la categoría
+        images: true, // Incluye las imágenes asociadas con el producto
       },
     });
 
     return NextResponse.json(products);
   } catch (error) {
-    console.log('[PRODUCTS_GET]', error);
+    console.log("[PRODUCTS_GET]", error);
     return new NextResponse("Error interno", { status: 500 });
   }
 }
