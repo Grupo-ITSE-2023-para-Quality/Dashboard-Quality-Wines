@@ -15,9 +15,28 @@ export async function GET(
       where: {
         id: params.billboardId,
       },
+      include: {
+        categories: {
+          include: {
+            products: {
+              include: {
+                images: true 
+              }
+            }
+          }
+        }
+      }
     });
+    
 
-    return NextResponse.json(billboard);
+    if (!billboard) {
+      return new NextResponse("Billboard no encontrado", { status: 404 });
+    }
+
+    // Obtener todos los productos de las categorías
+    const products = billboard.categories.flatMap((category) => category.products);
+
+    return NextResponse.json({ billboard, products }); // Devuelve también los productos
   } catch (error) {
     console.log("[BILLBOARD_GET]", error);
     return new NextResponse("Error interno", { status: 500 });
@@ -32,7 +51,7 @@ export async function PATCH(
     const { userId } = auth();
     const body = await req.json();
 
-    const { label, imageUrl } = body;
+    const { label, imageUrl, categoryIds } = body;
 
     if (!userId) {
       return new NextResponse("No Autenticado", { status: 401 });
@@ -59,25 +78,27 @@ export async function PATCH(
       },
     });
 
-    //esto hace que no se pueda cambiar las tiendas de otros usuarios
     if (!storeByUserId) {
       return new NextResponse("Sin autorización", { status: 403 });
     }
 
-    const billboard = await prismadb.billboard.updateMany({
+    const billboard = await prismadb.billboard.update({
       where: {
         id: params.billboardId,
       },
       data: {
         label,
         imageUrl,
+        categories: {
+          set: categoryIds?.map((id: string) => ({ id })) || [], // Actualiza las categorías asociadas
+        },
       },
     });
 
     return NextResponse.json(billboard);
   } catch (error) {
     console.log("[BILLBOARD_PATCH]", error);
-    return new NextResponse("Internal error", { status: 500 });
+    return new NextResponse("Error interno", { status: 500 });
   }
 }
 
