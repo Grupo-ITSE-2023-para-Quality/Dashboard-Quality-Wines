@@ -18,7 +18,6 @@ export const Overview: React.FC<OverviewProps> = ({ data }) => {
           axisLine={false}
         />
         <YAxis
-          dataKey="name"
           stroke="#888888"
           fontSize={12}
           tickLine={false}

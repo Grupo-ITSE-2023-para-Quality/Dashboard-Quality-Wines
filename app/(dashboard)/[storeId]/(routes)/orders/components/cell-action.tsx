@@ -63,19 +63,18 @@ export const CellAction: React.FC<CellActionsProps> = ({ data }) => {
     try {
       setLoading(true);
       await axios.patch(`/api/${params.storeId}/orders/${data.id}`, {
-        status: data.status, // Asegúrate de incluir el status actual o adecuado
+        status: data.status,
         isPaid: newIsPaid,
       });
       router.refresh();
       toast.success("Estado de pago actualizado");
     } catch (error: any) {
       toast.error("Algo salió mal, por favor intenta de nuevo.");
-      console.error("[PATCH Error]", error.response.data); // Loguea el error para debugging
+      console.error("[PATCH Error]", error.response.data);
     } finally {
       setLoading(false);
     }
   };
-  
 
   return (
     <>
@@ -94,21 +93,21 @@ export const CellAction: React.FC<CellActionsProps> = ({ data }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-          <DropdownMenuItem onClick={() => onCopy(data.id)}>
-            <Copy className="mr-2 h-4 w-4" />
-            Copiar Id
+          <DropdownMenuItem onClick={() => onStatusChange("En preparación")}>
+            Preparar
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onStatusChange("Aceptado")}>
-            Aceptar
+          <DropdownMenuItem onClick={() => onStatusChange("Entregado")}>
+            Entregar
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onStatusChange("Rechazado")}>
-            Rechazar
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onStatusChange("Finalizado")}>
-            Finalizar
+          <DropdownMenuItem onClick={() => onStatusChange("Cancelado")}>
+            Cancelar
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => onPaidChange(!data.isPaid)}>
             {data.isPaid ? "Marcar como no pagado" : "Marcar como pagado"}
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => onCopy(data.id)}>
+            <Copy className="mr-2 h-4 w-4" />
+            Copiar Id
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>
             <Trash className="mr-2 h-4 w-4" />
