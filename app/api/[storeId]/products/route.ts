@@ -91,21 +91,41 @@ export async function GET(
     const categoryId = searchParams.get("categoryId") || undefined;
     const sizeId = searchParams.get("sizeId") || undefined;
     const flavorId = searchParams.get("flavorId") || undefined;
-    const isFeatured =
-      searchParams.get("isFeatured") === "true" ? true : undefined; // Asegúrate de que sea un booleano
-    const imagesParam = searchParams.get("images") || undefined;
-
-    // Convertir el parámetro de imágenes en un array
-    const images = imagesParam ? imagesParam.split(",") : undefined;
+    const isFeatured = searchParams.get("isFeatured") === "true" ? true : undefined;
+    const billboardId = searchParams.get("billboardId"); 
+    const imagesParam = searchParams.get("images") || undefined; // Definir `imagesParam` correctamente
+    const images = imagesParam ? imagesParam.split(',') : undefined; // Convertir el parámetro en un array
 
     if (!params.storeId) {
-      return new NextResponse("Id de tienda es obligatorio", { status: 400 });
+      return NextResponse.json(
+        { message: "Id de tienda es obligatorio" },
+        { status: 400 }
+      );
     }
+
+    if (!billboardId) {
+      return NextResponse.json(
+        { message: "Id de billboard es obligatorio" },
+        { status: 400 }
+      );
+    }
+
+    // Obtenemos las categorías del billboard
+    const categories = await prismadb.category.findMany({
+      where: {
+        billboardId: billboardId,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    const categoryIds = categories.map((category) => category.id);
 
     const products = await prismadb.product.findMany({
       where: {
         storeId: params.storeId,
-        categoryId,
+        categoryId: categoryId || { in: categoryIds },
         sizeId,
         flavorId,
         isFeatured,
@@ -114,7 +134,7 @@ export async function GET(
           images: {
             some: {
               url: {
-                in: images, // Filtrar por URLs de imágenes que están en el array 'images'
+                in: images, // Usar el array de `images` para la consulta
               },
             },
           },
@@ -124,14 +144,19 @@ export async function GET(
         createdAt: "desc",
       },
       include: {
-        category: true, // Incluye el objeto completo de la categoría
-        images: true, // Incluye las imágenes asociadas con el producto
+        category: true,
+        images: true,
       },
     });
 
     return NextResponse.json(products);
   } catch (error) {
     console.log("[PRODUCTS_GET]", error);
-    return new NextResponse("Error interno", { status: 500 });
+    return NextResponse.json(
+      { message: "Error interno" },
+      { status: 500 }
+    );
   }
 }
+
+

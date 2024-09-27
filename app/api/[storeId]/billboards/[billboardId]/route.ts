@@ -2,6 +2,7 @@ import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
+
 export async function GET(
   req: Request,
   { params }: { params: { billboardId: string } }
@@ -16,32 +17,21 @@ export async function GET(
         id: params.billboardId,
       },
       include: {
-        categories: {
-          include: {
-            products: {
-              include: {
-                images: true 
-              }
-            }
-          }
-        }
+        categories: true // Solo incluir categorías, no productos
       }
     });
-    
 
     if (!billboard) {
       return new NextResponse("Billboard no encontrado", { status: 404 });
     }
 
-    // Obtener todos los productos de las categorías
-    const products = billboard.categories.flatMap((category) => category.products);
-
-    return NextResponse.json({ billboard, products }); // Devuelve también los productos
+    return NextResponse.json(billboard); // Devuelve solo el billboard
   } catch (error) {
     console.log("[BILLBOARD_GET]", error);
     return new NextResponse("Error interno", { status: 500 });
   }
 }
+
 
 export async function PATCH(
   req: Request,
