@@ -45,6 +45,7 @@ model Category {
   billboard   Billboard @relation(fields: [billboardId], references: [id])
   store       Store     @relation("StoreToCategory", fields: [storeId], references: [id])
   products    Product[] @relation("CategoryToProduct")
+  flavors     Flavor[]  @relation("CategoryToFlavor")
 
   @@index([storeId])
   @@index([billboardId])
@@ -64,15 +65,18 @@ model Size {
 }
 
 model Flavor {
-  id        String    @id @default(uuid())
-  storeId   String
-  name      String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  products  Product[]
-  store     Store     @relation("StoreToFlavor", fields: [storeId], references: [id])
+  id         String    @id @default(uuid())
+  storeId    String
+  name       String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  categoryId String
+  products   Product[]
+  store      Store     @relation("StoreToFlavor", fields: [storeId], references: [id])
+  category   Category  @relation("CategoryToFlavor", fields: [categoryId], references: [id])
 
   @@index([storeId])
+  @@index([categoryId])
 }
 
 model Product {
@@ -120,9 +124,9 @@ model Order {
   lastName   String      @default("")
   phone      String      @default("")
   email      String?     @default("")
-  status     String      @default("Pendiente")
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
+  status     String      @default("Pendiente")
   store      Store       @relation("StoreToOrder", fields: [storeId], references: [id])
   orderItems OrderItem[]
 
@@ -138,4 +142,9 @@ model OrderItem {
 
   @@index([orderId])
   @@index([productId])
+}
+
+model Subscriber {
+  id    Int    @id @default(autoincrement())
+  email String @unique
 }

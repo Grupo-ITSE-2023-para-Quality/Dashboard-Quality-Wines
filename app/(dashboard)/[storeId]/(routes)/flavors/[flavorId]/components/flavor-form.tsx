@@ -2,7 +2,7 @@
 
 import * as z from "zod";
 import axios from "axios";
-import { Flavor } from "@prisma/client";
+import { Flavor, Category } from "@prisma/client";
 import { Trash } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,18 +23,31 @@ import {
 import { Input } from "@/components/ui/input";
 import toast from "react-hot-toast";
 import { AlertModal } from "@/components/modals/alert-modal";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
+// Esquema de validación con categoryId incluido
 const formSchema = z.object({
   name: z.string().min(1),
+  categoryId: z.string().min(1), // Agregamos categoryId para la relación
 });
 
 type FlavorFormValues = z.infer<typeof formSchema>;
 
 interface FlavorFormProps {
   initialData: Flavor | null;
+  categories: Category[]; // Las categorías que se pueden seleccionar
 }
 
-export const FlavorForm: React.FC<FlavorFormProps> = ({ initialData }) => {
+export const FlavorForm: React.FC<FlavorFormProps> = ({
+  initialData,
+  categories,
+}) => {
   const params = useParams();
   const router = useRouter();
 
@@ -48,10 +61,12 @@ export const FlavorForm: React.FC<FlavorFormProps> = ({ initialData }) => {
   const toastMessage = initialData ? "Variedad actualizada" : "Variedad creada";
   const action = initialData ? "Guardar cambios" : "Crear";
 
+  // Configuración del formulario, incluyendo el campo de categoría
   const form = useForm<FlavorFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
       name: "",
+      categoryId: "", // Valor por defecto del campo de categoría
     },
   });
 
@@ -136,7 +151,40 @@ export const FlavorForm: React.FC<FlavorFormProps> = ({ initialData }) => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="categoryId" // Relación con la categoría
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Categoría</FormLabel>
+                  <Select
+                    disabled={loading}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder="Seleccione una categoría"
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {categories.map((category) => (
+                        <SelectItem key={category.id} value={category.id}>
+                          {category.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
+
           <Button disabled={loading} className-="ml-auto" type="submit">
             {action}
           </Button>

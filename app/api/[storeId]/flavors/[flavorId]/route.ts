@@ -2,6 +2,7 @@ import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
+// GET: Obtener un flavor por su ID
 export async function GET(
   req: Request,
   { params }: { params: { flavorId: string } }
@@ -15,6 +16,9 @@ export async function GET(
       where: {
         id: params.flavorId,
       },
+      include: {
+        category: true, // Incluir la relación con la categoría si es relevante
+      },
     });
 
     return NextResponse.json(flavor);
@@ -24,6 +28,7 @@ export async function GET(
   }
 }
 
+// PATCH: Actualizar un flavor por su ID
 export async function PATCH(
   req: Request,
   { params }: { params: { storeId: string; flavorId: string } }
@@ -32,7 +37,7 @@ export async function PATCH(
     const { userId } = auth();
     const body = await req.json();
 
-    const { name } = body;
+    const { name, categoryId } = body;
 
     if (!userId) {
       return new NextResponse("No Autenticado", { status: 401 });
@@ -55,7 +60,6 @@ export async function PATCH(
       },
     });
 
-    //esto hace que no se pueda cambiar las tiendas de otros usuarios
     if (!storeByUserId) {
       return new NextResponse("Sin autorización", { status: 403 });
     }
@@ -66,6 +70,7 @@ export async function PATCH(
       },
       data: {
         name,
+        categoryId, // Actualizar la categoría asociada si es necesario
       },
     });
 
@@ -76,6 +81,7 @@ export async function PATCH(
   }
 }
 
+// DELETE: Eliminar un flavor por su ID
 export async function DELETE(
   req: Request,
   { params }: { params: { storeId: string; flavorId: string } }
@@ -98,7 +104,6 @@ export async function DELETE(
       },
     });
 
-    //esto hace que no se pueda cambiar las tiendas de otros usuarios
     if (!storeByUserId) {
       return new NextResponse("Sin autorización", { status: 403 });
     }

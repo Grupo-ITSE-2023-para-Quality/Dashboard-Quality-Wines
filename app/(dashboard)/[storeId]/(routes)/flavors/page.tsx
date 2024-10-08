@@ -10,6 +10,9 @@ const FlavorPage = async ({ params }: { params: { storeId: string } }) => {
         where: {
             storeId: params.storeId,
         },
+        include: {
+            category: true,
+          },
         orderBy: {
             createdAt: "desc",
         },
@@ -18,6 +21,7 @@ const FlavorPage = async ({ params }: { params: { storeId: string } }) => {
     const formattedFlavors: FlavorColumn[] = flavors.map((item) => ({
         id: item.id,
         name: item.name,
+        categoryName: item.category?.name, 
         createdAt: format(item.createdAt, "dd-MM-yyyy"),
     }));
 

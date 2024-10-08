@@ -92,9 +92,9 @@ export async function GET(
     const sizeId = searchParams.get("sizeId") || undefined;
     const flavorId = searchParams.get("flavorId") || undefined;
     const isFeatured = searchParams.get("isFeatured") === "true" ? true : undefined;
-    const billboardId = searchParams.get("billboardId"); 
-    const imagesParam = searchParams.get("images") || undefined; // Definir `imagesParam` correctamente
-    const images = imagesParam ? imagesParam.split(',') : undefined; // Convertir el parámetro en un array
+    const billboardId = searchParams.get("billboardId");
+    const imagesParam = searchParams.get("images") || undefined;
+    const images = imagesParam ? imagesParam.split(',') : undefined;
 
     if (!params.storeId) {
       return NextResponse.json(
@@ -103,29 +103,32 @@ export async function GET(
       );
     }
 
-    if (!billboardId) {
+    // Si no es una solicitud de productos destacados, validar el `billboardId`
+    if (!isFeatured && !billboardId) {
       return NextResponse.json(
         { message: "Id de billboard es obligatorio" },
         { status: 400 }
       );
     }
 
-    // Obtenemos las categorías del billboard
-    const categories = await prismadb.category.findMany({
-      where: {
-        billboardId: billboardId,
-      },
-      select: {
-        id: true,
-      },
-    });
-
-    const categoryIds = categories.map((category) => category.id);
+    // Obtener categorías relacionadas al billboard solo si se proporciona el billboardId
+    let categoryIds: string[] = [];
+    if (billboardId) {
+      const categories = await prismadb.category.findMany({
+        where: {
+          billboardId: billboardId,
+        },
+        select: {
+          id: true,
+        },
+      });
+      categoryIds = categories.map((category) => category.id);
+    }
 
     const products = await prismadb.product.findMany({
       where: {
         storeId: params.storeId,
-        categoryId: categoryId || { in: categoryIds },
+        categoryId: categoryId || (billboardId ? { in: categoryIds } : undefined),
         sizeId,
         flavorId,
         isFeatured,
@@ -134,7 +137,7 @@ export async function GET(
           images: {
             some: {
               url: {
-                in: images, // Usar el array de `images` para la consulta
+                in: images,
               },
             },
           },
