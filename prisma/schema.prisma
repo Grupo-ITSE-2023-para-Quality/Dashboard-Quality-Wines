@@ -9,17 +9,18 @@ datasource db {
 }
 
 model Store {
-  id         String      @id @default(uuid())
+  id         String       @id @default(uuid())
   name       String
   userId     String
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  billboards Billboard[] @relation("StoreToBillboard")
-  categories Category[]  @relation("StoreToCategory")
-  orders     Order[]     @relation("StoreToOrder")
-  products   Product[]   @relation("StoreToProduct")
-  sizes      Size[]      @relation("StoreToSize")
-  flavors    Flavor[]    @relation("StoreToFlavor")
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  billboards Billboard[]  @relation("StoreToBillboard")
+  categories Category[]   @relation("StoreToCategory")
+  orders     Order[]      @relation("StoreToOrder")
+  products   Product[]    @relation("StoreToProduct")
+  sizes      Size[]       @relation("StoreToSize")
+  flavors    Flavor[]     @relation("StoreToFlavor")
+  subs       Subscriber[] @relation("StoreToSubscriber")
 }
 
 model Billboard {
@@ -145,6 +146,10 @@ model OrderItem {
 }
 
 model Subscriber {
-  id    Int    @id @default(autoincrement())
-  email String @unique
+  id      String @id @default(uuid())
+  storeId String
+  email   String @unique
+  store   Store  @relation("StoreToSubscriber", fields: [storeId], references: [id])
+
+  @@index([storeId])
 }
