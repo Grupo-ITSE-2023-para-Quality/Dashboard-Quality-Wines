@@ -6,6 +6,7 @@ import { ImagePlus, Trash } from "lucide-react";
 import { CldUploadWidget } from "next-cloudinary";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 interface ImageUploadProps {
   disabled?: boolean;
@@ -36,6 +37,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       setExistingImages(response.data.map((image: any) => image.secure_url));
     } catch (error) {
       console.error("Error al cargar las imágenes existentes", error);
+      toast.error("No se pudieron cargar las imágenes existentes.");
     } finally {
       setLoading(false);
     }
@@ -72,11 +74,11 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         ))}
       </div>
       
-      {/* Cargar imágenes existentes */}
+      {/* Cargar imágenes existentes
       <Button onClick={loadExistingImages} disabled={loading || disabled}>
         Ver imágenes existentes
       </Button>
-
+ 
       <div className="mt-4 grid grid-cols-3 gap-4">
         {existingImages.map((url) => (
           <div
@@ -87,7 +89,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             <Image fill className="object-cover" alt="existing image" src={url} />
           </div>
         ))}
-      </div>
+      </div>*/}
 
       {/* Cargar nueva imagen */}
       <CldUploadWidget onSuccess={onUpload} uploadPreset="jdbw3dhm">

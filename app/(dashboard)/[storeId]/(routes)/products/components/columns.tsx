@@ -6,7 +6,7 @@ import { CellAction } from "./cell-action";
 export type ProductColumn = {
   id: string;
   name: string;
-  price: string;
+  price: number;
   size?: string;
   category: string;
   flavor?: string;
@@ -21,16 +21,12 @@ export const columns: ColumnDef<ProductColumn>[] = [
     header: "Nombre",
   },
   {
-    accessorKey: "isArchived",
-    header: "Archivado",
-  },
-  {
-    accessorKey: "isFeatured",
-    header: "Destacado",
-  },
-  {
     accessorKey: "price",
     header: "Precio",
+  },
+  {
+    accessorKey: "stock",
+    header: "Stock",
   },
   {
     accessorKey: "category",
@@ -47,6 +43,14 @@ export const columns: ColumnDef<ProductColumn>[] = [
   {
     accessorKey: "createdAt",
     header: "Fecha",
+  },
+  {
+    accessorKey: "isArchived",
+    header: "Archivado",
+  },
+  {
+    accessorKey: "isFeatured",
+    header: "Destacado",
   },
   {
     id: "actions",

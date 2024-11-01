@@ -21,6 +21,7 @@ model Store {
   sizes      Size[]       @relation("StoreToSize")
   flavors    Flavor[]     @relation("StoreToFlavor")
   subs       Subscriber[] @relation("StoreToSubscriber")
+  providers  Provider[]   @relation("StoreToProvider")
 }
 
 model Billboard {
@@ -86,7 +87,9 @@ model Product {
   categoryId  String
   name        String
   description String?     @db.Text
-  price       Decimal
+  price       Int
+  stock       Int         @default(0)
+  minStock    Int         @default(5)
   isFeatured  Boolean     @default(false)
   isArchived  Boolean     @default(false)
   sizeId      String?
@@ -138,6 +141,8 @@ model OrderItem {
   id        String  @id @default(uuid())
   orderId   String
   productId String
+  quantity  Int     @default(1)
+  price     Int
   order     Order   @relation(fields: [orderId], references: [id])
   product   Product @relation(fields: [productId], references: [id])
 
@@ -150,6 +155,20 @@ model Subscriber {
   storeId String
   email   String @unique
   store   Store  @relation("StoreToSubscriber", fields: [storeId], references: [id])
+
+  @@index([storeId])
+}
+
+model Provider {
+  id        String   @id @default(uuid())
+  storeId   String
+  empresa   String
+  localidad String
+  contacto  String
+  comentario String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  store     Store    @relation("StoreToProvider", fields: [storeId], references: [id])
 
   @@index([storeId])
 }
