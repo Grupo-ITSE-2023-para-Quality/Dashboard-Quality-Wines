@@ -2,6 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
+import { formatter } from "@/lib/utils"; // Asegúrate de importar el formateador
 
 export type ProductColumn = {
   id: string;
@@ -23,6 +24,9 @@ export const columns: ColumnDef<ProductColumn>[] = [
   {
     accessorKey: "price",
     header: "Precio",
+    cell: ({ row }) => {
+      return formatter.format(row.getValue("price")); // Formatea el precio aquí
+    },
   },
   {
     accessorKey: "stock",
