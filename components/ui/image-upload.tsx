@@ -71,8 +71,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           </div>
         ))}
       </div>
-      
-      {/* Cargar imágenes existentes */}
+
+      {/* Cargar imágenes existentes 
       <Button onClick={loadExistingImages} disabled={loading || disabled}>
         Ver imágenes existentes
       </Button>
@@ -88,6 +88,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           </div>
         ))}
       </div>
+      */}
 
       {/* Cargar nueva imagen */}
       <CldUploadWidget onSuccess={onUpload} uploadPreset="jdbw3dhm">

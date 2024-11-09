@@ -26,7 +26,7 @@ const ProductsPage = async ({ params }: { params: { storeId: string } }) => {
     name: item.name,
     isFeatured: item.isFeatured,
     isArchived: item.isArchived,
-    price: formatter.format(item.price.toNumber()),
+    price: item.price,
     category: item.category.name,
     size: item.size?.name || "", // Provide a default value for size when it is undefined
     flavor: item.flavor?.name || "", // Provide a default value for flavor when it is undefined

@@ -86,7 +86,7 @@ model Product {
   categoryId  String
   name        String
   description String?     @db.Text
-  price       Decimal
+  price       Int
   isFeatured  Boolean     @default(false)
   isArchived  Boolean     @default(false)
   sizeId      String?
