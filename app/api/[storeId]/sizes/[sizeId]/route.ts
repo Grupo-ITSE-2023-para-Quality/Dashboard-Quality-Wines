@@ -70,7 +70,6 @@ export async function PATCH(
       },
       data: {
         name,
-        value
       },
     });
 

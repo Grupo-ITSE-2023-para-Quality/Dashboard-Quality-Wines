@@ -2,6 +2,18 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import prismadb from "@/lib/prismadb";
 
+// Manejo de solicitudes OPTIONS para CORS
+export async function OPTIONS(req: Request) {
+  return new NextResponse(null, {
+    headers: {
+      'Access-Control-Allow-Origin': `${process.env.FRONTEND_STORE_URL}`,
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Credentials': 'true', // Agregar esta línea
+    },
+  });
+}
+
 export async function POST(
   req: Request,
   { params }: { params: { storeId: string } }
@@ -75,7 +87,6 @@ export async function POST(
       },
     });
 
-    return NextResponse.json(product);
   } catch (error) {
     console.log("[PRODUCTS_POST]", error);
     return new NextResponse("Error interno", { status: 500 });
@@ -93,8 +104,6 @@ export async function GET(
     const flavorId = searchParams.get("flavorId") || undefined;
     const isFeatured = searchParams.get("isFeatured") === "true" ? true : undefined;
     const billboardId = searchParams.get("billboardId");
-    const imagesParam = searchParams.get("images") || undefined;
-    const images = imagesParam ? imagesParam.split(',') : undefined;
 
     if (!params.storeId) {
       return NextResponse.json(
@@ -103,15 +112,7 @@ export async function GET(
       );
     }
 
-    // Si no es una solicitud de productos destacados, validar el `billboardId`
-    if (!isFeatured && !billboardId) {
-      return NextResponse.json(
-        { message: "Id de billboard es obligatorio" },
-        { status: 400 }
-      );
-    }
-
-    // Obtener categorías relacionadas al billboard solo si se proporciona el billboardId
+    // Obtener categorías relacionadas al billboard
     let categoryIds: string[] = [];
     if (billboardId) {
       const categories = await prismadb.category.findMany({
@@ -128,20 +129,17 @@ export async function GET(
     const products = await prismadb.product.findMany({
       where: {
         storeId: params.storeId,
-        categoryId: categoryId || (billboardId ? { in: categoryIds } : undefined),
+        // Modificar la condición de categoryId
+        ...(billboardId 
+          ? { categoryId: { in: categoryIds } }
+          : { 
+              categoryId: categoryId || undefined,
+              isFeatured 
+            }
+        ),
         sizeId,
         flavorId,
-        isFeatured,
         isArchived: false,
-        ...(images && {
-          images: {
-            some: {
-              url: {
-                in: images,
-              },
-            },
-          },
-        }),
       },
       orderBy: {
         createdAt: "desc",
@@ -152,7 +150,15 @@ export async function GET(
       },
     });
 
-    return NextResponse.json(products);
+    return NextResponse.json(products, {
+      headers: {
+        'Access-Control-Allow-Origin': `${process.env.FRONTEND_STORE_URL}`,
+        'Access-Control-Allow-Methods': 'GET, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Credentials': 'true',
+        'Content-Type': 'application/json',
+      },
+    });
   } catch (error) {
     console.log("[PRODUCTS_GET]", error);
     return NextResponse.json(
@@ -161,5 +167,3 @@ export async function GET(
     );
   }
 }
-
-

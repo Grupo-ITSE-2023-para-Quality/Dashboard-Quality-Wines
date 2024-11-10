@@ -84,7 +84,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       ? {
           ...initialData,
           price: parseFloat(String(initialData?.price)),
-          sizeId: initialData?.sizeId ?? undefined,
+          sizeId: initialData?.sizeId ?? "",
           description: initialData?.description ?? "",
           flavorId: initialData?.flavorId ?? "",
         }
@@ -289,7 +289,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       <SelectTrigger>
                         <SelectValue
                           defaultValue={field.value}
-                          placeholder="Seleccione un envase"
+                          placeholder="Seleccione un material"
                         />
                       </SelectTrigger>
                     </FormControl>
