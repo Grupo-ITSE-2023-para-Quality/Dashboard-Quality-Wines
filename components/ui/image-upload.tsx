@@ -89,7 +89,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             <Image fill className="object-cover" alt="existing image" src={url} />
           </div>
         ))}
-      </div>*/}
+      </div>
+      */}
 
       {/* Cargar nueva imagen */}
       <CldUploadWidget onSuccess={onUpload} uploadPreset="jdbw3dhm">

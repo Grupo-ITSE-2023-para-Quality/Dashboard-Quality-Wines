@@ -24,7 +24,7 @@ export const SizesClient: React.FC<SizesClientProps> = ({ data }) => {
       <div className="flex items-center justify-between">
         <Heading
           title={`Presentaciones (${data.length})`}
-          description="Administrar los tipos de envase de los productos"
+          description="Administrar los tipos de envase o materiales de los productos"
         />
         <Button
           onClick={() => router.push(`/${params.storeId}/sizes/new`)}

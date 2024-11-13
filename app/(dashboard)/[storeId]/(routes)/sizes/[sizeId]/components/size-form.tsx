@@ -42,11 +42,11 @@ export const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const title = initialData ? "Editar envase" : "Crear envase";
+  const title = initialData ? "Editar presentación" : "Crear presentación";
   const description = initialData
-    ? "Editar el tipo de envase"
-    : "Añade un nuevo tipo de envase del producto";
-  const toastMessage = initialData ? "Envase actualizado" : "Envase creado";
+    ? "Editar el tipo de envase o material del producto"
+    : "Añade un nuevo tipo de envase o material del producto";
+  const toastMessage = initialData ? "Presentación actualizada" : "Presentación creada";
   const action = initialData ? "Guardar cambios" : "Crear";
 
   const form = useForm<SizeFormValues>({
@@ -131,23 +131,6 @@ export const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
                     <Input
                       disabled={loading}
                       placeholder="Nombre"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="value"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Cantidad</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Cantidad de productos"
                       {...field}
                     />
                   </FormControl>
