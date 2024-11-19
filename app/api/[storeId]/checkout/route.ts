@@ -22,6 +22,8 @@ export async function POST(req: Request, { params }: { params: { storeId: string
         orderItems: {
           create: cartItems.map((item: any) => ({
             productId: item.productId,
+            quantity: item.quantity, // Cantidad del producto
+            price: item.price,       // Precio del producto
           })),
         },
       },

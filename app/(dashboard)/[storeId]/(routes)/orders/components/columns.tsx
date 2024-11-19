@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { CellAction } from "./cell-action"; // Asegúrate de importar CellAction
+import { CellAction } from "./cell-action";
 
 export type OrderColumn = {
   id: string;
@@ -10,8 +10,8 @@ export type OrderColumn = {
   phone: string;
   isPaid: boolean;
   totalPrice: string;
-  products: string;
-  status: string; // Nueva propiedad
+  products: { name: string; quantity: number }[]; // Ajuste: productos con cantidad
+  status: string;
   createdAt: string;
 };
 
@@ -19,6 +19,30 @@ export const columns: ColumnDef<OrderColumn>[] = [
   {
     accessorKey: "products",
     header: "Productos",
+    cell: ({ row }) => (
+      <div className="flex flex-col space-y-1">
+        {row.original.products.map((product, index) => (
+          <div key={index} className="flex justify-between">
+            <span>{product.name}</span>
+          </div>
+        ))}
+      </div>
+    ),
+  },
+  {
+    accessorKey: "products.quantity",
+    header: "Cantidad",
+    cell: ({ row }) => (
+      <div className="flex flex-col space-y-1">
+        {row.original.products.map((product, index) => (
+          <div key={index}>{product.quantity}</div>
+        ))}
+      </div>
+    ),
+  },
+  {
+    accessorKey: "totalPrice",
+    header: "Total",
   },
   {
     accessorKey: "name",
@@ -31,10 +55,6 @@ export const columns: ColumnDef<OrderColumn>[] = [
   {
     accessorKey: "phone",
     header: "Teléfono",
-  },
-  {
-    accessorKey: "totalPrice",
-    header: "Total",
   },
   {
     accessorKey: "isPaid",
@@ -51,11 +71,11 @@ export const columns: ColumnDef<OrderColumn>[] = [
   },
   {
     accessorKey: "status",
-    header: "Estado del Pedido", // Nueva columna
+    header: "Estado del Pedido",
   },
   {
     id: "actions",
     header: "Acciones",
-    cell: ({ row }) => <CellAction data={row.original} />, // Asegúrate de definir CellAction
+    cell: ({ row }) => <CellAction data={row.original} />,
   },
 ];

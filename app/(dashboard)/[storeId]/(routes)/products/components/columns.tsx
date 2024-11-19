@@ -3,12 +3,10 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
 import { formatter } from "@/lib/utils"; // Asegúrate de importar el formateador
-import { formatter } from "@/lib/utils"; // Asegúrate de importar el formateador
 
 export type ProductColumn = {
   id: string;
   name: string;
-  price: number;
   price: number;
   size?: string;
   category: string;
@@ -49,14 +47,6 @@ export const columns: ColumnDef<ProductColumn>[] = [
   {
     accessorKey: "createdAt",
     header: "Fecha",
-  },
-  {
-    accessorKey: "isArchived",
-    header: "Archivado",
-  },
-  {
-    accessorKey: "isFeatured",
-    header: "Destacado",
   },
   {
     accessorKey: "isArchived",
