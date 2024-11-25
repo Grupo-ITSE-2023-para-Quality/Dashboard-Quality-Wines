@@ -129,17 +129,16 @@ export async function GET(
     const products = await prismadb.product.findMany({
       where: {
         storeId: params.storeId,
-        // Modificar la condición de categoryId
-        ...(billboardId 
-          ? { categoryId: { in: categoryIds } }
-          : { 
-              categoryId: categoryId || undefined,
-              isFeatured 
-            }
-        ),
+        isArchived: false,
+        isFeatured: isFeatured,
+        ...(categoryId && { categoryId }), // Si categoryId está presente, filtra por él
+        ...(billboardId && !categoryId ? { 
+          category: { 
+            billboardId: billboardId 
+          } 
+        } : {}), // Si solo hay billboardId y no categoryId, filtra por billboard
         sizeId,
         flavorId,
-        isArchived: false,
       },
       orderBy: {
         createdAt: "desc",

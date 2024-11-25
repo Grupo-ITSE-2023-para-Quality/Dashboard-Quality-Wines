@@ -2,31 +2,28 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
 
-export type ProviderColumn = {
+export type SuplierColumn = {
     id: string;
     empresa: string;
     localidad: string;
-    contacto: string;
+    telefono: string;
+    email?: string;
     comentario?: string;
     createdAt: string;
 }
 
-export const columns: ColumnDef<ProviderColumn>[] = [
+export const columns: ColumnDef<SuplierColumn>[] = [
     {
         accessorKey: "empresa",
         header: "Empresa",
-    },
-    {
-        accessorKey: "direccion",
-        header: "Dirección",
     },
     {
         accessorKey: "localidad",
         header: "Localidad",
     },
     {
-        accessorKey: "contacto",
-        header: "Contacto",
+        accessorKey: "telefono",
+        header: "Teléfono",
     },
     {
         accessorKey: "email",

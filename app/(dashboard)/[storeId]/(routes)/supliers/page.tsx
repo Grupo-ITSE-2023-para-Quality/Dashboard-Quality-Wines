@@ -1,10 +1,10 @@
 import prismadb from "@/lib/prismadb";
 import { format } from "date-fns";
-import { ProviderClient } from "./components/client";
-import { ProviderColumn } from "./components/columns";
+import { SuplierClient } from "./components/client";
+import { SuplierColumn } from "./components/columns";
 
-const ProvidersPage = async ({ params }: {params: {storeId: string}}) => {
-    const providers = await prismadb.provider.findMany({
+const SupliersPage = async ({ params }: {params: {storeId: string}}) => {
+    const supliers = await prismadb.suplier.findMany({
         where: {
             storeId: params.storeId
         },
@@ -13,11 +13,12 @@ const ProvidersPage = async ({ params }: {params: {storeId: string}}) => {
         },
     });
 
-    const formattedProviders: ProviderColumn[] = providers.map((item) => ({
+    const formattedSupliers: SuplierColumn[] = supliers.map((item) => ({
         id: item.id,
         empresa: item.empresa,
         localidad: item.localidad,
-        contacto: item.contacto,
+        telefono: item.telefono,
+        email: item.email  || "", 
         comentario: item.comentario || "",
         createdAt: format(item.createdAt, "dd-MM-yyyy"),
     }));
@@ -25,10 +26,10 @@ const ProvidersPage = async ({ params }: {params: {storeId: string}}) => {
     return (
         <div className="flex-col">
         <div className="flex-1 space-y-4 p-8 pt-6">
-            <ProviderClient data={formattedProviders} />
+            <SuplierClient data={formattedSupliers} />
         </div>
         </div>
     );
 };
 
-export default ProvidersPage;
+export default SupliersPage;

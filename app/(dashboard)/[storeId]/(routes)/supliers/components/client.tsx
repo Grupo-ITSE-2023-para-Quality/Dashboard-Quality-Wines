@@ -4,15 +4,15 @@ import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { ProviderColumn, columns } from "./columns";
+import { SuplierColumn, columns } from "./columns";
 import { DataTable } from "@/components/ui/data-table";
 import { ApiList } from "@/components/ui/api-list";
 
-interface ProviderClientProps {
-    data: ProviderColumn[];
+interface SuplierClientProps {
+    data: SuplierColumn[];
 }
 
-export const ProviderClient: React.FC<ProviderClientProps> = ({ data }) => {
+export const SuplierClient: React.FC<SuplierClientProps> = ({ data }) => {
     const router = useRouter();
     const params = useParams();
 
@@ -24,17 +24,17 @@ export const ProviderClient: React.FC<ProviderClientProps> = ({ data }) => {
             description="Administrar proveedores"
             />
             <Button
-            onClick={() => router.push(`/${params.storeId}/providers/new`)}
+            onClick={() => router.push(`/${params.storeId}/supliers/new`)}
             >
             <Plus className="mr-2 h-4 w-4" />
             Añadir
             </Button>
         </div>
         <Separator />
-        <DataTable searchKey="name" columns={columns} data={data} />
+        <DataTable searchKey="empresa" columns={columns} data={data} />
         <Heading title="API" description="Llamados de API para proveedores" />
         <Separator />
-        <ApiList entityName="providers" entityIdName="providerId" />
+        <ApiList entityName="supliers" entityIdName="suplierId" />
         </>
     );
 };

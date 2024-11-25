@@ -32,6 +32,12 @@ export const CellAction: React.FC<CellActionsProps> = ({ data }) => {
     toast.success("Id de order copiado en el portapapeles");
   };
 
+  const onSendWhatsApp = (phone: string) => {
+    // Genera la URL de WhatsApp usando el número de teléfono
+    const whatsappUrl = `https://wa.me/+54${phone}`;
+    window.open(whatsappUrl, "_blank");
+  };
+
   const onDelete = async () => {
     try {
       setLoading(true);
@@ -106,12 +112,13 @@ export const CellAction: React.FC<CellActionsProps> = ({ data }) => {
             {data.isPaid ? "Marcar como no pagado" : "Marcar como pagado"}
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => onCopy(data.id)}>
-            <Copy className="mr-2 h-4 w-4" />
-            Copiar Id
+            <Copy className="mr-2 h-4 w-4" /> Copiar ID
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setOpen(true)}>
-            <Trash className="mr-2 h-4 w-4" />
-            Eliminar
+          <DropdownMenuItem onClick={() => onSendWhatsApp(data.phone)}>
+            Enviar WhatsApp
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setOpen(true)} className="text-red-500">
+            <Trash className="mr-2 h-4 w-4" /> Eliminar
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

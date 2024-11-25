@@ -20,7 +20,7 @@ CREATE TABLE `Provider` (
     `storeId` VARCHAR(191) NOT NULL,
     `empresa` VARCHAR(191) NOT NULL,
     `localidad` VARCHAR(191) NOT NULL,
-    `contacto` VARCHAR(191) NOT NULL,
+    `telefono` VARCHAR(191) NOT NULL,
     `comentario` VARCHAR(191) NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,

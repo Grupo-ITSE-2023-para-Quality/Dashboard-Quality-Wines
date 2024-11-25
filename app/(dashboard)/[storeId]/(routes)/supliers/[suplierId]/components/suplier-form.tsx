@@ -2,7 +2,7 @@
 
 import * as z from "zod";
 import axios from "axios";
-import { Provider } from "@prisma/client";
+import { Suplier } from "@prisma/client";
 import { Trash } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,18 +27,18 @@ import { AlertModal } from "@/components/modals/alert-modal";
 const formSchema = z.object({
   empresa: z.string().min(1),
   localidad: z.string().min(1),
-  contacto: z.string().min(1),
-  email: z.string().email(),
+  telefono: z.string().min(1),
+  email: z.string().email().optional(),
   comentario: z.string().optional(),
 });
 
-type ProviderFormValues = z.infer<typeof formSchema>;
+type SuplierFormValues = z.infer<typeof formSchema>;
 
-interface ProviderFormProps {
-  initialData: Provider | null;
+interface SuplierFormProps {
+  initialData: Suplier | null;
 }
 
-export const ProviderForm: React.FC<ProviderFormProps> = ({ initialData }) => {
+export const SuplierForm: React.FC<SuplierFormProps> = ({ initialData }) => {
   const params = useParams();
   const router = useRouter();
 
@@ -49,34 +49,44 @@ export const ProviderForm: React.FC<ProviderFormProps> = ({ initialData }) => {
   const description = initialData
     ? "Editar la información del proveedor"
     : "Añade un nuevo proveedor";
-  const toastMessage = initialData ? "Proveedor actualizado" : "Proveedor creado";
+  const toastMessage = initialData
+    ? "Proveedor actualizado"
+    : "Proveedor creado";
   const action = initialData ? "Guardar cambios" : "Crear";
-  const form = useForm<ProviderFormValues>({
+  const form = useForm<SuplierFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData ? {
-      ...initialData,
-      comentario: initialData.comentario || "", // Asegúrate de que comentario no sea null
-    } : {
-      empresa: "",
-      localidad: "",
-      contacto: "",
-      email: "",
-      comentario: "",
-    },
+    defaultValues: initialData
+      ? {
+          ...initialData,
+          email: initialData.email || undefined, // Cambia null a undefined
+          comentario: initialData.comentario || "", // Asegúrate de que comentario no sea null
+        }
+      : {
+          empresa: "",
+          localidad: "",
+          telefono: "",
+          email: undefined, // Cambia a undefined
+          comentario: "",
+        },
   });
 
-  const onSubmit = async (data: ProviderFormValues) => {
+  const onSubmit = async (data: SuplierFormValues) => {
     try {
       setLoading(true);
+      console.log("Store ID:", params.storeId); // Verifica el storeId
       if (initialData) {
-        await axios.patch(`/api/${params.storeId}/providers/${params.providerId}`, data);
+        await axios.patch(
+          `/api/${params.storeId}/supliers/${params.suplierId}`,
+          data
+        );
       } else {
-        await axios.post(`/api/${params.storeId}/providers`, data);
+        await axios.post(`/api/${params.storeId}/supliers`, data);
       }
       router.refresh();
-      router.push(`/${params.storeId}/providers`);
+      router.push(`/${params.storeId}/supliers`);
       toast.success(toastMessage);
     } catch (error) {
+      console.error("Error enviando formulario:", error); // Muestra el error en la consola
       toast.error("Algo salió mal");
     } finally {
       setLoading(false);
@@ -86,9 +96,11 @@ export const ProviderForm: React.FC<ProviderFormProps> = ({ initialData }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/providers/${params.providerId}`);
+      await axios.delete(
+        `/api/${params.storeId}/supliers/${params.suplierId}`
+      );
       router.refresh();
-      router.push(`/${params.storeId}/providers`);
+      router.push(`/${params.storeId}/supliers`);
       toast.success("Proveedor eliminado");
     } catch (error) {
       toast.error("Elimine primero todos los productos del proveedor");
@@ -98,7 +110,7 @@ export const ProviderForm: React.FC<ProviderFormProps> = ({ initialData }) => {
     }
   };
 
-    return (
+  return (
     <>
       <AlertModal
         isOpen={open}
@@ -125,7 +137,7 @@ export const ProviderForm: React.FC<ProviderFormProps> = ({ initialData }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-full"
         >
-                      <div className="grid grid-cols-3 gap-8">
+          <div className="grid grid-cols-3 gap-8">
             <FormField
               control={form.control}
               name="empresa"
@@ -162,14 +174,14 @@ export const ProviderForm: React.FC<ProviderFormProps> = ({ initialData }) => {
             />
             <FormField
               control={form.control}
-              name="contacto"
+              name="telefono"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Contacto</FormLabel>
+                  <FormLabel>Teléfono</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Nombre del contacto"
+                      placeholder="Número de teléfono"
                       {...field}
                     />
                   </FormControl>
@@ -203,7 +215,7 @@ export const ProviderForm: React.FC<ProviderFormProps> = ({ initialData }) => {
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Comentarios adicionales"
+                      placeholder="Información adicional"
                       {...field}
                     />
                   </FormControl>
