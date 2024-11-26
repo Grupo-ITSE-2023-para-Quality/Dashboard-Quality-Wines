@@ -41,13 +41,15 @@ export async function PATCH(
     const {
       name,
       price,
+      stock, 
+      minStock,
       categoryId,
       sizeId,
       images,
       flavorId,
       description,
       isFeatured,
-      isArchived
+      isArchived,
     } = body;
 
     if (!userId) {
@@ -58,20 +60,20 @@ export async function PATCH(
       return new NextResponse("El nombre es obligatorio", { status: 400 });
     }
 
-    if(!images || !images.length) {
-      return  new NextResponse("La imágen es obligatoria", { status: 400 });
+    if (!images || !images.length) {
+      return new NextResponse("La imágen es obligatoria", { status: 400 });
     }
 
     if (!price) {
-      return new NextResponse("El precio es obligatorio", {status: 400,});
+      return new NextResponse("El precio es obligatorio", { status: 400 });
+    }
+
+    if (stock === undefined) { // Verifica que stock esté definido
+      return new NextResponse("El stock es obligatorio", { status: 400 });
     }
 
     if (!categoryId) {
       return new NextResponse("La categoría es obligatoria", { status: 400 });
-    }
-
-    if (!sizeId) {
-      return new NextResponse("El envase es obligatorio", { status: 400 });
     }
 
     if (!params.productId) {
@@ -87,30 +89,37 @@ export async function PATCH(
       },
     });
 
-    //esto hace que no se pueda cambiar las tiendas de otros usuarios
     if (!storeByUserId) {
       return new NextResponse("Sin autorización", { status: 403 });
     }
 
-await prismadb.product.update({
+    // Calcular el nuevo valor de inStock
+    const inStock = stock > 0;
+
+    // Actualizar el producto
+    await prismadb.product.update({
       where: {
         id: params.productId,
       },
       data: {
         name,
         price,
+        stock, 
+        minStock, 
         categoryId,
         sizeId,
         flavorId,
         description: description || "",
+        isFeatured,
+        isArchived,
+        inStock, 
         images: {
           deleteMany: {}
         },
-        isFeatured,
-        isArchived,
       }
     });
 
+    // Actualizar las imágenes del producto
     const product = await prismadb.product.update({
       where: {
         id: params.productId
@@ -119,12 +128,12 @@ await prismadb.product.update({
         images: {
           createMany: {
             data: [
-              ...images.map((image: { url: string}) => image),
+              ...images.map((image: { url: string }) => image),
             ]
           }
         }
       }
-    })
+    });
 
     return NextResponse.json(product);
   } catch (error) {

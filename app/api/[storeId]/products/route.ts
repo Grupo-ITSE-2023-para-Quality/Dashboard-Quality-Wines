@@ -24,6 +24,8 @@ export async function POST(
     const {
       name,
       price,
+      stock, // Asegúrate de que stock esté incluido
+      minStock,
       categoryId,
       sizeId,
       images,
@@ -49,6 +51,10 @@ export async function POST(
       return new NextResponse("El precio es obligatorio", { status: 400 });
     }
 
+    if (stock === undefined) { // Verifica que stock esté definido
+      return new NextResponse("El stock es obligatorio", { status: 400 });
+    }
+
     if (!categoryId) {
       return new NextResponse("La categoría es obligatoria", { status: 400 });
     }
@@ -68,10 +74,15 @@ export async function POST(
       return new NextResponse("Sin autorización", { status: 403 });
     }
 
+    // Calcular el valor de inStock
+    const inStock = stock > 0;
+
     const product = await prismadb.product.create({
       data: {
         name,
         price,
+        stock, // Asegúrate de incluir el stock
+        minStock, // También incluir minStock si es necesario
         isFeatured,
         isArchived,
         categoryId,
@@ -79,6 +90,7 @@ export async function POST(
         flavorId,
         description: description || "",
         storeId: params.storeId,
+        inStock, // Agregar el valor calculado de inStock
         images: {
           createMany: {
             data: images.map((image: { url: string }) => ({ url: image.url })), // Crear múltiples imágenes
@@ -87,6 +99,7 @@ export async function POST(
       },
     });
 
+    return NextResponse.json(product); // Retorna el producto creado
   } catch (error) {
     console.log("[PRODUCTS_POST]", error);
     return new NextResponse("Error interno", { status: 500 });
