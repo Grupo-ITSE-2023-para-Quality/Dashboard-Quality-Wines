@@ -81,8 +81,8 @@ export async function POST(
       data: {
         name,
         price,
-        stock, // Asegúrate de incluir el stock
-        minStock, // También incluir minStock si es necesario
+        stock, 
+        minStock, 
         isFeatured,
         isArchived,
         categoryId,
@@ -90,7 +90,7 @@ export async function POST(
         flavorId,
         description: description || "",
         storeId: params.storeId,
-        inStock, // Agregar el valor calculado de inStock
+        inStock, 
         images: {
           createMany: {
             data: images.map((image: { url: string }) => ({ url: image.url })), // Crear múltiples imágenes

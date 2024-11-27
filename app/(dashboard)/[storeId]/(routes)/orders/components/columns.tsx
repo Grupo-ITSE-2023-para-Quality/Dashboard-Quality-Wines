@@ -10,7 +10,7 @@ export type OrderColumn = {
   phone: string;
   isPaid: boolean;
   totalPrice: string;
-  products: { name: string; quantity: number }[]; // Ajuste: productos con cantidad
+  products: { name: string; quantity: number; productId: string }[];
   status: string;
   createdAt: string;
 };

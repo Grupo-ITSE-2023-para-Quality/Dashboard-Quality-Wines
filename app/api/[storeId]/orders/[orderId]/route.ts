@@ -26,63 +26,90 @@ export async function GET(
 export async function PATCH(
     req: Request,
     { params }: { params: { storeId: string; orderId: string } }
-) {
+  ) {
     try {
-        const { userId } = auth();
-        const body = await req.json();
-
-        const { status, isPaid } = body;
-
-        if (!userId) {
-            return new NextResponse("No Autenticado", { status: 401 });
-        }
-
-        if (!params.orderId) {
-            return new NextResponse("El id de order es necesario", { status: 400 });
-        }
-
-        const storeByUserId = await prismadb.store.findFirst({
+      const { userId } = auth();
+      const body = await req.json();
+  
+      if (!userId) {
+        return new NextResponse("No Autenticado", { status: 401 });
+      }
+  
+      if (!params.orderId) {
+        return new NextResponse("El id de order es necesario", { status: 400 });
+      }
+  
+      const storeByUserId = await prismadb.store.findFirst({
+        where: {
+          id: params.storeId,
+          userId,
+        },
+      });
+  
+      if (!storeByUserId) {
+        return new NextResponse("Sin autorización", { status: 403 });
+      }
+  
+      const dataToUpdate: { status?: string; isPaid?: boolean } = {};
+  
+      if (body.status) {
+        dataToUpdate.status = body.status;
+  
+        if (body.status === "Cancelado") {
+          const orderItems = await prismadb.orderItem.findMany({
             where: {
-                id: params.storeId,
-                userId,
+              orderId: params.orderId,
             },
-        });
-
-        if (!storeByUserId) {
-            return new NextResponse("Sin autorización", { status: 403 });
+          });
+  
+          for (const orderItem of orderItems) {
+            // Actualizar el stock del producto
+            const product = await prismadb.product.update({
+              where: {
+                id: orderItem.productId,
+              },
+              data: {
+                stock: {
+                  increment: orderItem.quantity, // Aumentamos el stock del producto
+                },
+                isArchived: {
+                  set: false, // Cambiamos isArchived a false si el stock es mayor a 0
+                },
+              },
+            });
+  
+            // Si el stock después de incrementar es mayor a 0, aseguramos que isArchived sea false
+            if (product.stock > 0) {
+              await prismadb.product.update({
+                where: {
+                  id: product.id,
+                },
+                data: {
+                  isArchived: false,
+                },
+              });
+            }
+          }
         }
-
-        // Crear un objeto de datos dinámicamente basado en los valores recibidos
-        const dataToUpdate: { status?: string; isPaid?: boolean } = {};
-
-        if (status) {
-            dataToUpdate.status = status;
-        }
-
-        if (typeof isPaid !== 'undefined') {
-            dataToUpdate.isPaid = isPaid;
-        }
-
-        // Verificar que haya al menos un dato para actualizar
-        if (Object.keys(dataToUpdate).length === 0) {
-            return new NextResponse("Faltan datos para actualizar", { status: 400 });
-        }
-
-        // Actualizar el pedido
-        const order = await prismadb.order.updateMany({
-            where: {
-                id: params.orderId,
-            },
-            data: dataToUpdate,
-        });
-
-        return NextResponse.json(order);
+      }
+  
+      if (Object.keys(dataToUpdate).length === 0) {
+        return new NextResponse("Faltan datos para actualizar", { status: 400 });
+      }
+  
+      const order = await prismadb.order.update({
+        where: {
+          id: params.orderId,
+        },
+        data: dataToUpdate,
+      });
+  
+      return NextResponse.json(order);
     } catch (error) {
-        console.log("[ORDER_PATCH]", error);
-        return new NextResponse("Error interno", { status: 500 });
+      console.log("[ORDER_PATCH]", error);
+      return new NextResponse("Error interno", { status: 500 });
     }
-}
-
+  }
 
 export async function DELETE(
     req: Request,

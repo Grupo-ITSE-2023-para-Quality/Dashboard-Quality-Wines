@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Copy, MoreHorizontal, Trash } from "lucide-react";
+import { Copy, MoreHorizontal, Trash, MessageCircle } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -55,16 +55,31 @@ export const CellAction: React.FC<CellActionsProps> = ({ data }) => {
   const onStatusChange = async (newStatus: string) => {
     try {
       setLoading(true);
-      await axios.patch(`/api/${params.storeId}/orders/${data.id}`, { status: newStatus });
+  
+      // Actualizamos el estado del pedido
+      await axios.patch(`/api/${params.storeId}/orders/${data.id}`, {
+        status: newStatus,
+      });
+  
       router.refresh();
       toast.success("Estado actualizado");
     } catch (error) {
-      toast.error("Algo salió mal, por favor intenta de nuevo.");
+      // Verificamos si error es un objeto y tiene la propiedad response
+      if (axios.isAxiosError(error)) {
+        // Si es un error de Axios, podemos acceder a error.response
+        const errorMessage = error.response?.data || "Algo salió mal, por favor intenta de nuevo.";
+        toast.error(errorMessage);
+        console.error("[Error en onStatusChange]", errorMessage);
+      } else {
+        // Si no es un error de Axios, manejamos el error genérico
+        toast.error("Algo salió mal, por favor intenta de nuevo.");
+        console.error("[Error en onStatusChange]", error);
+      }    
     } finally {
       setLoading(false);
     }
   };
-
+  
   const onPaidChange = async (newIsPaid: boolean) => {
     try {
       setLoading(true);
@@ -115,9 +130,13 @@ export const CellAction: React.FC<CellActionsProps> = ({ data }) => {
             <Copy className="mr-2 h-4 w-4" /> Copiar ID
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => onSendWhatsApp(data.phone)}>
+            <MessageCircle className="mr-2 h-4 w-4" />
             Enviar WhatsApp
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setOpen(true)} className="text-red-500">
+          <DropdownMenuItem
+            onClick={() => setOpen(true)}
+            className="text-red-500"
+          >
             <Trash className="mr-2 h-4 w-4" /> Eliminar
           </DropdownMenuItem>
         </DropdownMenuContent>
