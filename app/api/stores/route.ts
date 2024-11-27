@@ -21,7 +21,7 @@ export async function POST(req: Request) {
       data: {
         name,
         userId,
-      },
+      }
     });
 
     return NextResponse.json(store);

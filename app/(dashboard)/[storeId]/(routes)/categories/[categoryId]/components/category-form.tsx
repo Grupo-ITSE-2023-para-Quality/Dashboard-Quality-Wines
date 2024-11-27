@@ -137,7 +137,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-full"
         >
-          <div className="grid drid-cols-3 gap-8">
+          <div className="grid grid-cols-3 gap-8">
             <FormField
               control={form.control}
               name="name"
@@ -154,13 +154,13 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                   <FormMessage />
                 </FormItem>
               )}
-            />{" "}
+            />
             <FormField
               control={form.control}
               name="billboardId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Promoción</FormLabel>
+                  <FormLabel>Sección</FormLabel>
                   <Select
                     disabled={loading}
                     onValueChange={field.onChange}
@@ -171,7 +171,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                       <SelectTrigger>
                         <SelectValue
                           defaultValue={field.value}
-                          placeholder="Seleccione una promoción"
+                          placeholder="Seleccione una sección"
                         />
                       </SelectTrigger>
                     </FormControl>

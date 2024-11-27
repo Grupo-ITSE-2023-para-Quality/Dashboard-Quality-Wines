@@ -15,12 +15,16 @@ export async function GET(
       where: {
         id: params.categoryId,
       },
+
+      include: {
+        billboard: true,
+      },
     });
 
     return NextResponse.json(category);
   } catch (error) {
     console.log("[CATEGORY_GET]", error);
-    return new NextResponse("Internal error", { status: 500 });
+    return new NextResponse("Error interno", { status: 500 });
   }
 }
 
@@ -43,7 +47,7 @@ export async function PATCH(
     }
 
     if (!billboardId) {
-      return new NextResponse("Promoción requerida", { status: 400 });
+      return new NextResponse("Sección requerida", { status: 400 });
     }
 
     if (!params.categoryId) {
@@ -75,7 +79,7 @@ export async function PATCH(
 
     return NextResponse.json(category);
   } catch (error) {
-    console.log("[BILLBOARD_PATCH]", error);
+    console.log("[CATEGORY_PATCH]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }

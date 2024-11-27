@@ -62,12 +62,12 @@ export default function StoreSwitcher({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button
+        <Button 
           variant="outline"
           size="sm"
           role="combobox"
           aria-expanded={open}
-          aria-label="Selecciona una tienda"
+          aria-label="Seleccione una tienda"
           className={cn("w-[200px] justify-between", className)}
         >
           <StoreIcon className="mr-2 h-4 w-4" />

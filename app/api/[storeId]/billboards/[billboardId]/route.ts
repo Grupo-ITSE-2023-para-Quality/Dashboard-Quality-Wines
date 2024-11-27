@@ -2,6 +2,7 @@ import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
+
 export async function GET(
   req: Request,
   { params }: { params: { billboardId: string } }
@@ -15,14 +16,22 @@ export async function GET(
       where: {
         id: params.billboardId,
       },
+      include: {
+        categories: true // Solo incluir categorías, no productos
+      }
     });
 
-    return NextResponse.json(billboard);
+    if (!billboard) {
+      return new NextResponse("Billboard no encontrado", { status: 404 });
+    }
+
+    return NextResponse.json(billboard); // Devuelve solo el billboard
   } catch (error) {
     console.log("[BILLBOARD_GET]", error);
-    return new NextResponse("Internal error", { status: 500 });
+    return new NextResponse("Error interno", { status: 500 });
   }
 }
+
 
 export async function PATCH(
   req: Request,
@@ -32,7 +41,7 @@ export async function PATCH(
     const { userId } = auth();
     const body = await req.json();
 
-    const { label, imageUrl } = body;
+    const { label, imageUrl, categoryIds } = body;
 
     if (!userId) {
       return new NextResponse("No Autenticado", { status: 401 });
@@ -59,25 +68,27 @@ export async function PATCH(
       },
     });
 
-    //esto hace que no se pueda cambiar las tiendas de otros usuarios
     if (!storeByUserId) {
       return new NextResponse("Sin autorización", { status: 403 });
     }
 
-    const billboard = await prismadb.billboard.updateMany({
+    const billboard = await prismadb.billboard.update({
       where: {
         id: params.billboardId,
       },
       data: {
         label,
         imageUrl,
+        categories: {
+          set: categoryIds?.map((id: string) => ({ id })) || [], // Actualiza las categorías asociadas
+        },
       },
     });
 
     return NextResponse.json(billboard);
   } catch (error) {
     console.log("[BILLBOARD_PATCH]", error);
-    return new NextResponse("Internal error", { status: 500 });
+    return new NextResponse("Error interno", { status: 500 });
   }
 }
 
@@ -117,6 +128,6 @@ export async function DELETE(
     return NextResponse.json(billboard);
   } catch (error) {
     console.log("[BILLBOARD_DELETE]", error);
-    return new NextResponse("Internal error", { status: 500 });
+    return new NextResponse("Error interno", { status: 500 });
   }
 }

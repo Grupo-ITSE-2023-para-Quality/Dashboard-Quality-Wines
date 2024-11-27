@@ -23,8 +23,8 @@ export const BillboardClient: React.FC<BillboardClientProps> = ({ data }) => {
     <>
       <div className="flex items-center justify-between">
         <Heading
-          title={`Promociones (${data.length})`}
-          description="Administrar anuncios"
+          title={`Secciones (${data.length})`}
+          description="Administrar secciones de la tienda"
         />
         <Button
           onClick={() => router.push(`/${params.storeId}/billboards/new`)}
@@ -35,7 +35,7 @@ export const BillboardClient: React.FC<BillboardClientProps> = ({ data }) => {
       </div>
       <Separator />
       <DataTable searchKey="label" columns={columns} data={data} />
-      <Heading title="API" description="Llamados de API para promociones" />
+      <Heading title="API" description="Llamados de API para secciones" />
       <Separator />
       <ApiList entityName="billboards" entityIdName="billboardId" />
     </>

@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { Cell } from "@tanstack/react-table";
-import {CategoryColumn } from "./columns";
+import { CategoryColumn } from "./columns";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -39,9 +39,7 @@ export const CellAction: React.FC<CellActionsProps> = ({ data }) => {
       router.refresh();
       toast.success("Categoría eliminada");
     } catch (error) {
-      toast.error(
-        "Elimine primero todas los productos de esta categoría"
-      );
+      toast.error("Elimine primero todas los productos de esta categoría");
     } finally {
       setLoading(false);
       setOpen(false);

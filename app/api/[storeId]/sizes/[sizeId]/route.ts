@@ -47,7 +47,7 @@ export async function PATCH(
     }
 
     if (!params.sizeId) {
-      return new NextResponse("El id de sizes es necesario", {
+      return new NextResponse("El id de presentacion es necesario", {
         status: 400,
       });
     }
@@ -70,7 +70,6 @@ export async function PATCH(
       },
       data: {
         name,
-        value,
       },
     });
 
@@ -93,7 +92,7 @@ export async function DELETE(
     }
 
     if (!params.sizeId) {
-      return new NextResponse("Id de size necesario", { status: 400 });
+      return new NextResponse("Id de presentación necesario", { status: 400 });
     }
 
     const storeByUserId = await prismadb.store.findFirst({

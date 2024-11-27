@@ -46,7 +46,6 @@ export async function POST(
     const size = await prismadb.size.create({
       data: {
         name,
-        value,
         storeId: params.storeId,
       },
     });

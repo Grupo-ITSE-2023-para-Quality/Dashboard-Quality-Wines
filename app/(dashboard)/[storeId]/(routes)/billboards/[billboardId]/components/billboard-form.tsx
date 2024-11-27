@@ -45,20 +45,20 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const title = initialData ? "Editar promoción" : "Crear promoción";
+  const title = initialData ? "Editar sección" : "Crear sección";
   const description = initialData
-    ? "Editar una promoción"
-    : "Añade un nuevo anuncio";
+    ? "Editar una sección"
+    : "Añade una nueva sección";
   const toastMessage = initialData
-    ? "Promoción actualizada"
-    : "Promoción creada";
+    ? "Sección actualizada"
+    : "Sección creada";
   const action = initialData ? "Guardar cambios" : "Crear";
 
   const form = useForm<BillboardFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
-      label: "",
-      imageUrl: "",
+      label: '',
+      imageUrl: '',
     },
   });
 
@@ -91,10 +91,10 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
       );
       router.refresh();
       router.push(`/${params.storeId}/billboards`);
-      toast.success("Promoción eliminada");
+      toast.success("Sección eliminada");
     } catch (error) {
       toast.error(
-        "Primero elimine todas las categorias usadas en esta promoción"
+        "Primero elimine todas las categorias usadas en esta sección"
       );
     } finally {
       setLoading(false);
@@ -147,7 +147,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
               </FormItem>
             )}
           />
-          <div className="grid drid-cols-3 gap-8">
+          <div className="grid grid-cols-3 gap-8">
             <FormField
               control={form.control}
               name="label"
@@ -157,7 +157,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Nombre de la promoción"
+                      placeholder="Nombre de la sección"
                       {...field}
                     />
                   </FormControl>

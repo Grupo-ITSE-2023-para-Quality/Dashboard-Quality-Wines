@@ -29,7 +29,7 @@ export const CellAction: React.FC<CellActionsProps> = ({ data }) => {
   const [open, setOpen] = useState(false);
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);
-    toast.success("Id de Size copiado en el portapapeles");
+    toast.success("Id de presentación copiado en el portapapeles");
   };
 
   const onDelete = async () => {
@@ -37,10 +37,10 @@ export const CellAction: React.FC<CellActionsProps> = ({ data }) => {
       setLoading(true);
       await axios.delete(`/api/${params.storeId}/sizes/${data.id}`);
       router.refresh();
-      toast.success("Size eliminada");
+      toast.success("Presentación eliminada");
     } catch (error) {
       toast.error(
-        "Elimine primero todos los productos usados en esta Size"
+        "Elimine primero todos los productos usados con esta presentación"
       );
     } finally {
       setLoading(false);
@@ -59,7 +59,7 @@ export const CellAction: React.FC<CellActionsProps> = ({ data }) => {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
-            <span className="sr-only"> Open menu</span>
+            <span className="sr-only"> Abrir menu</span>
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>

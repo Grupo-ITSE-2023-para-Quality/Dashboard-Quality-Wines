@@ -23,8 +23,8 @@ export const SizesClient: React.FC<SizesClientProps> = ({ data }) => {
     <>
       <div className="flex items-center justify-between">
         <Heading
-          title={`Sizes (${data.length})`}
-          description="Administrar las presentaciones de productos"
+          title={`Presentaciones (${data.length})`}
+          description="Administrar los tipos de envase o materiales de los productos"
         />
         <Button
           onClick={() => router.push(`/${params.storeId}/sizes/new`)}
@@ -35,7 +35,7 @@ export const SizesClient: React.FC<SizesClientProps> = ({ data }) => {
       </div>
       <Separator />
       <DataTable searchKey="name" columns={columns} data={data} />
-      <Heading title="API" description="Llamados de API para sizes" />
+      <Heading title="API" description="Llamados de API para presentaciones" />
       <Separator />
       <ApiList entityName="sizes" entityIdName="sizeId" />
     </>

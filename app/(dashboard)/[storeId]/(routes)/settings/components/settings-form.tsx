@@ -24,7 +24,7 @@ import { Input } from "@/components/ui/input";
 import toast from "react-hot-toast";
 import { AlertModal } from "@/components/modals/alert-modal";
 import { ApiAlert } from "@/components/ui/api-alert";
-import { useOrigin } from "@/hooks/use.origin";
+import { useOrigin } from "@/hooks/use-origin";
 
 interface SettingsFormProps {
   initialData: Store;
@@ -105,7 +105,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-full"
         >
-          <div className="grid drid-cols-3 gap-8">
+          <div className="grid grid-cols-3 gap-8">
             <FormField
               control={form.control}
               name="name"
@@ -115,7 +115,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Store name"
+                      placeholder="Nombre de la tienda"
                       {...field}
                     />
                   </FormControl>
@@ -131,7 +131,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
       </Form>
       <Separator />
       <ApiAlert
-        title="test"
+        title="NEXT_PUBLIC_API_URL"
         description={`${origin}/api/${params.storeId}`}
         variant="public"
       />
