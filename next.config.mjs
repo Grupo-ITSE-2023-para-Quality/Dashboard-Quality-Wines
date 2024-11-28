@@ -2,14 +2,21 @@
 // next.config.js
 const nextConfig = {
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "res.cloudinary.com",
-        pathname: "/**", // Permite todas las rutas dentro de este dominio
-      },
-    ],
+    domains: [
+      "res.cloudinary.com"
+    ]
   },
 };
 
 export default nextConfig;
+
+
+
+    {/*remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+        pathname: '/ds6lk4m1e/**',
+      },
+    ],*/}

@@ -1,37 +1,40 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 import { authMiddleware } from "@clerk/nextjs/server";
-import type { NextRequest } from "next/server";
 
-// Manejo de CORS
 function corsMiddleware(request: NextRequest) {
-  if (request.method === "OPTIONS") {
-    return NextResponse.json(null, {
+  // Manejar solicitudes OPTIONS
+  if (request.method === 'OPTIONS') {
+    return new NextResponse(null, {
+      status: 204,
       headers: {
-        "Access-Control-Allow-Origin": `${process.env.FRONTEND_STORE_URL}`,
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, DELETE",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization",
-        "Access-Control-Allow-Credentials": "true",
+        'Access-Control-Allow-Origin': process.env.FRONTEND_STORE_URL || '*',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Access-Control-Allow-Credentials': 'true',
       },
     });
   }
 
+  // Agregar encabezados CORS a todas las respuestas
   const response = NextResponse.next();
-  response.headers.set("Access-Control-Allow-Origin", `${process.env.FRONTEND_STORE_URL}`);
-  response.headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
-  response.headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  response.headers.set("Access-Control-Allow-Credentials", "true");
+  
+  response.headers.set('Access-Control-Allow-Origin', process.env.FRONTEND_STORE_URL || '*');
+  response.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+  response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  response.headers.set('Access-Control-Allow-Credentials', 'true');
 
   return response;
 }
 
-// Combinar CORS y autenticación
 export default authMiddleware({
   publicRoutes: ["/api/:path*"],
-  async afterAuth(auth, request) {
-    return corsMiddleware(request);
-  },
+  afterAuth(auth, req) {
+    // Aplicar CORS middleware
+    return corsMiddleware(req);
+  }
 });
 
 export const config = {
-  matcher: ["/api/:path*"], // Middleware aplicado solo en rutas de API
+  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
 };
