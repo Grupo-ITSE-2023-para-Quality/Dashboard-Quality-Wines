@@ -32,7 +32,7 @@ export async function PATCH(
     const { userId } = auth();
     const body = await req.json();
 
-    const { name, value } = body;
+    const { name } = body;
 
     if (!userId) {
       return new NextResponse("No Autenticado", { status: 401 });
@@ -40,10 +40,6 @@ export async function PATCH(
 
     if (!name) {
       return new NextResponse("Nombre es requerido", { status: 400 });
-    }
-
-    if (!value) {
-      return new NextResponse("EL valor es requerido", { status: 400 });
     }
 
     if (!params.sizeId) {

@@ -26,7 +26,6 @@ import { AlertModal } from "@/components/modals/alert-modal";
 
 const formSchema = z.object({
   name: z.string().min(1),
-  value: z.string().min(1),
 });
 
 type SizeFormValues = z.infer<typeof formSchema>;
@@ -53,7 +52,6 @@ export const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
       name: "",
-      value: "",
     },
   });
 

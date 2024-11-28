@@ -11,7 +11,7 @@ export async function POST(
     const { userId } = auth();
     const body = await req.json();
 
-    const { name, value } = body;
+    const { name } = body;
 
     if (!userId) {
       return new NextResponse("No identificado", { status: 401 });
@@ -19,12 +19,6 @@ export async function POST(
 
     if (!name) {
       return new NextResponse("Nombre es obligatorio", { status: 400 });
-    }
-
-    if (!value) {
-      return new NextResponse("El valor es obligatorio", {
-        status: 400,
-      });
     }
 
     if (!params.storeId) {
