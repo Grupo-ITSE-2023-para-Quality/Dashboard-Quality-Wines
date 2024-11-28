@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prismadb from "@/lib/prismadb";
 
-const allowedOrigins = process.env.FRONTEND_STORE_URL ?? '';
+const allowedOrigins = `${process.env.FRONTEND_STORE_URL}`;
 
 export async function POST(
   req: NextRequest,
@@ -84,8 +84,7 @@ export async function GET(
   };
 
   try {
-    // Permitir siempre solicitudes desde el dashboard (localhost:3000)
-    if (origin && origin !== 'http://localhost:3000' && !allowedOrigins.includes(origin)) {
+    if (origin && origin !== 'https://qualitywines-admin.vercel.app/api/a45de0f3-c4f7-4ada-b2cd-6ebbbca8eff5' && !allowedOrigins.includes(origin)) {
       return new NextResponse("No autorizado por CORS", { status: 403, headers });
     }
 

@@ -2,16 +2,16 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import prismadb from "@/lib/prismadb";
 
+const corsHeaders = {
+  "Access-Control-Allow-Origin": `${process.env.FRONTEND_STORE_URL}`,
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, DELETE",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+  "Access-Control-Allow-Credentials": "true",
+};
+
 // Manejo de solicitudes OPTIONS para CORS
 export async function OPTIONS(req: Request) {
-  return new NextResponse(null, {
-    headers: {
-      'Access-Control-Allow-Origin': `${process.env.FRONTEND_STORE_URL}`,
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
-      'Access-Control-Allow-Credentials': 'true', // Agregar esta línea
-    },
-  });
+  return NextResponse.json(null, { headers: corsHeaders });
 }
 
 export async function POST(
