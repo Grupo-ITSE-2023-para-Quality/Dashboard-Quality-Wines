@@ -45,12 +45,12 @@ export const columns: ColumnDef<OrderColumn>[] = [
     header: "Total",
   },
   {
-    accessorKey: "name",
-    header: "Nombre",
-  },
-  {
     accessorKey: "lastName",
     header: "Apellido",
+  },
+  {
+    accessorKey: "name",
+    header: "Nombre",
   },
   {
     accessorKey: "phone",
@@ -61,9 +61,7 @@ export const columns: ColumnDef<OrderColumn>[] = [
     header: "Pago efectuado",
     cell: ({ row }) => (
       <span
-        className={`${
-          row.original.isPaid ? "text-green-600" : "text-red-600"
-        }`}
+        className={`${row.original.isPaid ? "text-green-600" : "text-red-600"}`}
       >
         {row.original.isPaid ? "Sí" : "No"}
       </span>
@@ -72,6 +70,25 @@ export const columns: ColumnDef<OrderColumn>[] = [
   {
     accessorKey: "status",
     header: "Estado del Pedido",
+    cell: ({ row }) => {
+      const status = row.original.status;
+      let statusClass;
+      switch (status) {
+        case "En preparación":
+          statusClass = "text-yellow-600";
+          break;
+        case "Entregado":
+          statusClass = "text-green-600";
+          break;
+        case "Cancelado":
+          statusClass = "text-red-600";
+          break;
+        default:
+          statusClass = "text-gray-600";
+      }
+
+      return <span className={statusClass}>{status}</span>;
+    },
   },
   {
     id: "actions",

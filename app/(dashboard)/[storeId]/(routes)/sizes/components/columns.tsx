@@ -20,6 +20,7 @@ export const columns: ColumnDef<SizeColumn>[] = [
   },
   {
     id: "actions",
+    header: "Acciones",
     cell: ({ row }) => <CellAction data={row.original} />,
   },
 ];

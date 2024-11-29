@@ -26,6 +26,7 @@ export const columns: ColumnDef<FlavorColumn>[] = [
   },
   {
     id: "actions",
+    header: "Acciones",
     cell: ({ row }) => <CellAction data={row.original} />,
   },
 ];

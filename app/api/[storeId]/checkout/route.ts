@@ -105,6 +105,7 @@ export async function OPTIONS(req: NextRequest) {
       "Access-Control-Allow-Origin": `${process.env.FRONTEND_STORE_URL}`,
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
+      'Access-Control-Allow-Credentials': 'true',
     },
   });
 }

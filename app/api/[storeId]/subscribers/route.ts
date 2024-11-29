@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prismadb from "@/lib/prismadb";
 
-const allowedOrigins = process.env.FRONTEND_STORE_URL ?? '';
+const allowedOrigins = `${process.env.FRONTEND_STORE_URL}`;
 
 export async function POST(
   req: NextRequest,
@@ -131,9 +131,10 @@ export async function OPTIONS(req: NextRequest) {
   return new NextResponse(null, {
     status: 204,
     headers: {
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': `${process.env.FRONTEND_STORE_URL}`,
       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      'Access-Control-Allow-Credentials': 'true',
     },
   });
 }
