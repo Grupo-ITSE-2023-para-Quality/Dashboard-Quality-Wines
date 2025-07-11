@@ -1,36 +1,116 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Panel de Control para E-commerce - Quality Wines
 
-## Getting Started
+ Este es un panel de control de administrador (CMS) completo para una tienda online, desarrollado como parte de las Prácticas Profesionalizantes de la Tecnicatura Superior en Desarrollo de Software del ITSE.
 
-First, run the development server:
+El sistema permite gestionar todos los aspectos de la tienda, desde los productos y categorías hasta los pedidos y proveedores, ofreciendo una visión completa del rendimiento del negocio a través de un dashboard de estadísticas.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+**Ver demo en vivo:** [**qualitywines-admin.vercel.app**](https://www.google.com/search?q=https://qualitywines-admin.vercel.app)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+*(Usuario: `admin`, Contraseña: `demodemo`)*
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ✨ Características Principales
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Este panel de control está diseñado para ser una solución integral y escalable para la administración de un e-commerce.
 
-## Learn More
+  * **📈 Dashboard de Estadísticas:** Visualiza métricas clave como ganancias totales, ventas y stock de productos en un gráfico interactivo.
+  * **🛍️ Gestión de Tiendas Múltiples:** El sistema está preparado para manejar múltiples tiendas desde una sola interfaz.
+  * **🗂️ Gestión de Productos:**
+      * Creación, edición y eliminación de productos.
+      * Campos personalizables como nombre, precio, descripción, stock y stock mínimo.
+      * Posibilidad de marcar productos como "Destacados" (para la página principal) o "Archivados" (para ocultarlos de la tienda).
+  * **📑 Gestión de Categorías:** Organiza tus productos en diferentes categorías para una mejor navegación en la tienda.
+  * **🖼️ Gestión de Secciones (Billboards):** Administra las imágenes y secciones principales que se mostrarán en la tienda, como banners promocionales.
+  * **📦 Gestión de Atributos:**
+      * **Presentaciones:** Define los tamaños o envases de los productos (ej: 750ml, 1.5L).
+      * **Variedades:** Administra los tipos o sabores de los productos (ej: Malbec, Cabernet Sauvignon).
+  * **🚚 Gestión de Pedidos:** Visualiza y administra todos los pedidos realizados por los clientes, incluyendo su estado (Pendiente, En preparación, Entregado) y si han sido pagados.
+  * **👥 Gestión de Proveedores:** Lleva un registro de tus proveedores con su información de contacto y comentarios.
+  * **🔐 Autenticación Segura:** Implementación de un sistema de autenticación completo con Clerk para proteger las rutas y la información sensible.
+  * **⚙️ API First Design:** Todas las funcionalidades del panel están expuestas a través de una API RESTful, lo que permite una fácil integración con cualquier frontend de tienda.
+  * **📱 Diseño Responsivo:** La interfaz se adapta a diferentes tamaños de pantalla para una correcta visualización en dispositivos móviles y de escritorio.
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Tecnologías Utilizadas
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Este proyecto fue construido utilizando un stack de tecnologías modernas y eficientes:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+  * **Framework:** [Next.js](https://nextjs.org/)
+  * **Lenguaje:** [TypeScript](https://www.typescriptlang.org/)
+  * **Estilos:** [Tailwind CSS](https://tailwindcss.com/)
+  * **Componentes UI:** [Shadcn/ui](https://ui.shadcn.com/)
+  * **Gestión de Estado:** [Zustand](https://github.com/pmndrs/zustand)
+  * **ORM:** [Prisma](https://www.prisma.io/)
+  * **Base de Datos:** [PlanetScale](https://planetscale.com/) (MySQL)
+  * **Autenticación:** [Clerk](https://clerk.com/)
+  * **Subida de Imágenes:** [Cloudinary](https://cloudinary.com/)
+  * **Validación de Formularios:** [Zod](https://zod.dev/) y [React Hook Form](https://react-hook-form.com/)
+  * **Gráficos:** [Recharts](https://recharts.org/)
+  * **Deployment:** [Vercel](https://vercel.com/)
 
-## Deploy on Vercel
+## 🚀 Cómo Empezar
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Para correr este proyecto en tu entorno local, sigue estos pasos:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1.  **Clonar el repositorio:**
+
+    ```bash
+    git clone https://github.com/ProfeCeci/Dashboard-Quality-Wines.git
+    cd Dashboard-Quality-Wines
+    ```
+
+2.  **Instalar dependencias:**
+
+    ```bash
+    npm install
+    ```
+
+3.  **Configurar las variables de entorno:**
+    Crea un archivo `.env` en la raíz del proyecto y añade las siguientes variables. Puedes tomar como base el archivo `.env.example` (si existe) o crearlo desde cero.
+
+    ```env
+    # Base de Datos (PlanetScale u otra)
+    DATABASE_URL="tu_url_de_base_de_datos"
+
+    # Autenticación con Clerk
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=tu_clave_publicable_de_clerk
+    CLERK_SECRET_KEY=tu_clave_secreta_de_clerk
+
+    # Cloudinary para la subida de imágenes
+    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="tu_cloud_name_de_cloudinary"
+
+    # URL del frontend de la tienda (para CORS)
+    FRONTEND_STORE_URL="http://localhost:3001" # o la URL de tu tienda
+    ```
+
+4.  **Ejecutar las migraciones de la base de datos:**
+    Prisma utilizará el esquema definido para crear las tablas en tu base de datos.
+
+    ```bash
+    npx prisma migrate dev
+    ```
+
+5.  **Iniciar el servidor de desarrollo:**
+
+    ```bash
+    npm run dev
+    ```
+
+6.  ¡Listo\! Abre [http://localhost:3000](https://www.google.com/search?q=http://localhost:3000) en tu navegador para ver el proyecto en acción.
+
+## ✍️ Autores
+
+Este proyecto fue desarrollado en equipo por:
+
+  * **Andrea Cecilia López**
+
+      * GitHub: [@ProfeCeci](https://www.google.com/search?q=https://github.com/ProfeCeci)
+      * LinkedIn: [linkedin.com/in/andreacecilialopez](https://www.google.com/search?q=https://www.linkedin.com/in/andreacecilialopez/)
+
+  * **Nicolas Loto**
+
+      * GitHub: [@nicolasloto](https://www.google.com/search?q=https://github.com/nicolasloto)
+
+  * **Carlos Joaquin Guzman**
+
+      * GitHub: [@Joaco1404](https://www.google.com/search?q=https://github.com/Joaco1404)
+
+  * **Fernando Agustin Guzman**
